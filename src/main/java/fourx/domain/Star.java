@@ -102,5 +102,10 @@ public class Star {
     public int getSurfaceTemperature() {
 	return surfaceTemperature;
     }
+    
+    public String toString() {
+	return name + " [ " + spectralType.toString() + spectralNumber +
+		luminosityClass.toString() + " at " + location + " ]"; 
+    }
 
 }

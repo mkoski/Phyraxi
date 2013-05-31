@@ -23,6 +23,10 @@ public enum LuminosityClass {
     public String getSymbol() {
 	return symbol;
     }
+    
+    public String toString() {
+	return symbol;
+    }
 
     private static class Constants {
 	private static final String HYPERGIANT_SYMBOL = "0";
