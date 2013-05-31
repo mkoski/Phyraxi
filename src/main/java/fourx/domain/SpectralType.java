@@ -5,16 +5,19 @@ package fourx.domain;
  */
 public enum SpectralType {
     
-    O, // blue
-    B, // blue-white
-    A, // white
-    F, // yellow-white
-    G, // yellow
-    K, // orange
-    M, // red
-    L, // red/brown dwarfs...
-    T,
-    Y,
-    D // ... and white dwarf
+    /** Blue, > 33000K. */
+    O,
+    /** Blue-white, 10000-33000K. */
+    B,
+    /** White, 7500-10000K. */
+    A,
+    /** Yellow-white, 6000-7500K. */
+    F,
+    /** Yellow, 5200-6000K. */
+    G,
+    /** Orange, 3700-5200K. */
+    K,
+    /** Red, 2000-3700K. */
+    M
 
 }

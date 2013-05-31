@@ -18,17 +18,10 @@ import fourx.domain.StarSystem.StarHierarchy;
 @RunWith(Enclosed.class)
 public class StarSystemTest {
 
-    private static final Star SOL = new Star(new Coordinates(0, 0, 0), "Sol",
-	    SpectralType.G, 2, LuminosityClass.MAIN_SEQUENCE, 1.0, 1.0, 5778);
-    private static final Star NEMESIS = new Star(new Coordinates(0, 0, 0),
-	    "Nemesis", SpectralType.L, 8, LuminosityClass.SUBDWARF, 0.2, 0.003,
-	    3200);
-    private static final Star ALPHA_A = new Star(new Coordinates(0, 0, 0),
-	    "Alpha Centauri A", SpectralType.G, 2,
-	    LuminosityClass.MAIN_SEQUENCE, 1.1, 1.52, 5800);
-    private static final Star ALPHA_B = new Star(new Coordinates(0, 0, 0),
-	    "Alpha Centauri B", SpectralType.K, 1,
-	    LuminosityClass.MAIN_SEQUENCE, 0.91, 0.45, 4300);
+    private static final Star SOL = new Star("Sol", SpectralType.G, 2, LuminosityClass.MAIN_SEQUENCE, 1.0, 1.0, 5778);
+    private static final Star NEMESIS = new Star("Nemesis", SpectralType.M, 8, LuminosityClass.SUBDWARF, 0.2, 0.003, 3200);
+    private static final Star ALPHA_A = new Star("Alpha Centauri A", SpectralType.G, 2, LuminosityClass.MAIN_SEQUENCE, 1.1, 1.52, 5800);
+    private static final Star ALPHA_B = new Star("Alpha Centauri B", SpectralType.K, 1, LuminosityClass.MAIN_SEQUENCE, 0.91, 0.45, 4300);
 
     public static class StarHierarchyTests {
 

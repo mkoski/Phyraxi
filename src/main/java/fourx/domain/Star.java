@@ -7,7 +7,6 @@ package fourx.domain;
  */
 public class Star {
 
-    private final Coordinates location;
     private final String name;
     private final SpectralType spectralType;
     private final int spectralNumber;
@@ -16,10 +15,9 @@ public class Star {
     private final double brightness;
     private final int surfaceTemperature;
 
-    public Star(Coordinates location, String name, SpectralType spectralType,
-	    int spectralNumber, LuminosityClass luminosityClass, double mass,
-	    double brightness, int surfaceTemperature) {
-	this.location = location;
+    public Star(String name, SpectralType spectralType, int spectralNumber,
+	    LuminosityClass luminosityClass, double mass, double brightness,
+	    int surfaceTemperature) {
 	this.name = name;
 	this.spectralType = spectralType;
 	this.spectralNumber = spectralNumber;
@@ -27,15 +25,6 @@ public class Star {
 	this.mass = mass;
 	this.brightness = brightness;
 	this.surfaceTemperature = surfaceTemperature;
-    }
-
-    /**
-     * Gets the location of the star.
-     * 
-     * @return star location.
-     */
-    public Coordinates getLocation() {
-	return location;
     }
 
     /**
@@ -105,7 +94,7 @@ public class Star {
     
     public String toString() {
 	return name + " [ " + spectralType.toString() + spectralNumber +
-		luminosityClass.toString() + " at " + location + " ]"; 
+		luminosityClass.toString() + " ]"; 
     }
 
 }

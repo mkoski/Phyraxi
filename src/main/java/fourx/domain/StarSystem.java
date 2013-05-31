@@ -9,7 +9,15 @@ import java.util.NoSuchElementException;
  */
 public class StarSystem {
     
-    private StarHierarchy stars;
+    public final String name;
+    public final Coordinates location;
+    public final StarHierarchy stars;
+    
+    public StarSystem(String name, Coordinates location, StarHierarchy stars) {
+	this.name = name;
+	this.location = location;
+	this.stars = stars;
+    }
     
     static class StarIterator implements Iterator<Star> {
 	
@@ -62,7 +70,7 @@ public class StarSystem {
 	
     }
     
-    static class StarHierarchy {
+    public static class StarHierarchy {
 	
 	private Star centralStar;
 	private Star binaryPair;
@@ -74,47 +82,47 @@ public class StarSystem {
 	    this.companionComponent = companionComponent;
 	}
 	
-	boolean isSingle() {
+	public boolean isSingle() {
 	    return (binaryPair == null && companionComponent == null);
 	}
 	
-	boolean isBinary() {
+	public boolean isBinary() {
 	    return (binaryPair != null && companionComponent == null);
 	}
 	
-	boolean hasCompanion() {
+	public boolean hasCompanion() {
 	    return (companionComponent != null);
 	}
 	
-	Star getCentralStar() {
+	public Star getCentralStar() {
 	    return centralStar;
 	}
 	
-	Star getBinaryPair() {
+	public Star getBinaryPair() {
 	    return binaryPair;
 	}
 	
-	StarHierarchy getCompanionComponent() {
+	public StarHierarchy getCompanionComponent() {
 	    return companionComponent;
 	}
 	
-	Iterator<Star> starIterator() {
+	public Iterator<Star> starIterator() {
 	    return new StarIterator(this);
 	}
 	
-	static StarHierarchy createSingleStar(Star star) {
+	public static StarHierarchy createSingleStar(Star star) {
 	    return new StarHierarchy(star, null, null);
 	}
 	
-	static StarHierarchy createBinaryPair(Star centralStar, Star binaryPair) {
+	public static StarHierarchy createBinaryPair(Star centralStar, Star binaryPair) {
 	    return new StarHierarchy(centralStar, binaryPair, null);
 	}
 	
-	static StarHierarchy createDistantPair(Star centralStar, Star companion) {
+	public static StarHierarchy createDistantPair(Star centralStar, Star companion) {
 	    return new StarHierarchy(centralStar, null, createSingleStar(companion));
 	}
 	
-	static StarHierarchy createWithCompanion(StarHierarchy centralComponent, StarHierarchy companionComponent) {
+	public static StarHierarchy createWithCompanion(StarHierarchy centralComponent, StarHierarchy companionComponent) {
 	    return new StarHierarchy(centralComponent.centralStar, centralComponent.binaryPair, companionComponent);
 	}
     }
