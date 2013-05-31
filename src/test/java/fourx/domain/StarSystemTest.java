@@ -39,6 +39,22 @@ public class StarSystemTest {
 	    assertFalse(singleStar.isBinary());
 	    assertFalse(singleStar.hasCompanion());
 	}
+	
+	@Test
+	public void shouldBeBinary() {
+	    StarHierarchy binaryStar = StarHierarchy.createBinaryPair(SOL, NEMESIS);
+	    assertFalse(binaryStar.isSingle());
+	    assertTrue(binaryStar.isBinary());
+	    assertFalse(binaryStar.hasCompanion());
+	}
+	
+	@Test
+	public void shouldHaveCompanion() {
+	    StarHierarchy companionStar = StarHierarchy.createDistantPair(SOL, NEMESIS);
+	    assertFalse(companionStar.isSingle());
+	    assertFalse(companionStar.isBinary());
+	    assertTrue(companionStar.hasCompanion());
+	}
 
     }
 
@@ -99,12 +115,36 @@ public class StarSystemTest {
 	
 	@Test
 	public void testWithCompanionPairTrinaryStar() {
-	    // TODO testWithCompanionPairTrinaryStar
+	    StarHierarchy trinaryStar = StarHierarchy.createWithCompanion(
+		    StarHierarchy.createSingleStar(NEMESIS),
+		    StarHierarchy.createBinaryPair(ALPHA_A, ALPHA_B)
+		    );
+	    Iterator<Star> iterator = trinaryStar.starIterator();
+	    assertTrue(iterator.hasNext());
+	    assertEquals(NEMESIS, iterator.next());
+	    assertTrue(iterator.hasNext());
+	    assertEquals(ALPHA_A, iterator.next());
+	    assertTrue(iterator.hasNext());
+	    assertEquals(ALPHA_B, iterator.next());
+	    assertFalse(iterator.hasNext());
 	}
 	
 	@Test
 	public void testWithQuadrupleStar() {
-	    // TODO testWithQuadrupleStar
+	    StarHierarchy quadrupleStar = StarHierarchy.createWithCompanion(
+		    StarHierarchy.createBinaryPair(SOL, NEMESIS),
+		    StarHierarchy.createBinaryPair(ALPHA_A, ALPHA_B)
+		    );
+	    Iterator<Star> iterator = quadrupleStar.starIterator();
+	    assertTrue(iterator.hasNext());
+	    assertEquals(SOL, iterator.next());
+	    assertTrue(iterator.hasNext());
+	    assertEquals(NEMESIS, iterator.next());
+	    assertTrue(iterator.hasNext());
+	    assertEquals(ALPHA_A, iterator.next());
+	    assertTrue(iterator.hasNext());
+	    assertEquals(ALPHA_B, iterator.next());
+	    assertFalse(iterator.hasNext());
 	}
 
     }
