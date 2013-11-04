@@ -3,6 +3,7 @@ package fourx.engine;
 import java.util.ArrayList;
 import java.util.List;
 
+import fourx.command.GameSettings;
 import fourx.domain.Coordinates;
 import fourx.domain.LuminosityClass;
 import fourx.domain.SpectralType;
@@ -29,6 +30,10 @@ public class GalaxyGenerator {
      */
     
     public List<StarSystem> createGalaxy() {
+	return createGalaxy(GameSettings.DEFAULT);
+    }
+    
+    public List<StarSystem> createGalaxy(GameSettings gameSettings) {
 	// TODO an actual, non-dummy implementation of createGalaxy()
 	StarSystem solarSystem = new StarSystem("Solar System",
 		new Coordinates(0, 0, 0), StarHierarchy.createSingleStar(SOL));

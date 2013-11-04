@@ -1,0 +1,25 @@
+package fourx.engine.generators;
+
+import java.util.List;
+
+import fourx.command.GameSettings;
+import fourx.domain.Coordinates;
+
+/**
+ * 
+ */
+public class SpiralArmsCoordinateGenerator implements CoordinateGenerator {
+
+	public List<Coordinates> generateStarSystemCoordinates(GameSettings gameSettings) {
+		// TODO: implement!
+		// - should create a denser central bulge with more variable Z coords
+		// - each "cluster" should be a spiral arm
+		// - arms should be angles reasonably regularly, small random variation
+		// - randomly determine spiral direction
+		// - divide stars semi-evenly to bulge and arms
+		// - bulge has decreasing density and Z-variation further from center
+		// - for arms, "bending" increases and Z-variation decreases with distance
+		return null;
+	}
+
+}
