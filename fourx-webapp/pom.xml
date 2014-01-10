@@ -8,10 +8,10 @@
     <version>0.1-SNAPSHOT</version>
   </parent>
   <artifactId>fourx-webapp</artifactId>
-  <packaging>jar</packaging><!-- TODO: standalone? WAR? -->
+  <packaging>jar</packaging>
 
   <properties>
-    <jetty.plugin.version>9.0.3.v20130506</jetty.plugin.version>
+    <jersey.version>2.5.1</jersey.version>
   </properties>
 
   <dependencies>
@@ -20,6 +20,17 @@
       <artifactId>fourx-core</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.containers</groupId>
+      <artifactId>jersey-container-jetty-http</artifactId>
+      <version>${jersey.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.media</groupId>
+      <artifactId>jersey-media-json-jackson</artifactId>
+      <version>${jersey.version}</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -31,9 +42,26 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>org.eclipse.jetty</groupId>
-        <artifactId>jetty-maven-plugin</artifactId>
-        <version>${jetty.plugin.version}</version>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+          <archive>
+            <manifest>
+              <mainClass>fourx.server.rest.Launcher</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+        <executions>
+          <execution>
+            <id>assemble-executable</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
