@@ -1,5 +1,11 @@
-<web-app xmlns="http://java.sun.com/xml/ns/javaee"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-  version="3.0">
+<web-app version="3.0"
+  xmlns="http://java.sun.com/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <servlet>
+    <servlet-name>fourx.server.rest.RestApplication</servlet-name>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>fourx.server.rest.RestApplication</servlet-name>
+    <url-pattern>/resources/*</url-pattern>
+  </servlet-mapping>
 </web-app>
