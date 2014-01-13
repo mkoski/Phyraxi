@@ -9,6 +9,7 @@
   <modules>
     <module>fourx-core</module>
     <module>fourx-rest-server</module>
+    <module>fourx-web-client</module>
   </modules>
 
   <name>fourx</name>
