@@ -86,6 +86,8 @@ public class Star {
     }
 
     /**
+     * Gets the &quot;effective&quot; surface temperature, in Kelvins.
+     * 
      * @return the surfaceTemperature
      */
     public int getSurfaceTemperature() {
