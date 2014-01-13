@@ -10,12 +10,6 @@
   <artifactId>fourx-web-client</artifactId>
   <packaging>war</packaging>
 
-  <!-- TODO:
-       * dependency on REST server
-       * web.xml for deploying the REST server
-       * jetty plugin for running locally
-       * leave out server parts from static assembly 
-  -->
   <properties>
     <jetty.plugin.version>9.0.6.v20130930</jetty.plugin.version>
   </properties>
