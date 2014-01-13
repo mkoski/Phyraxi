@@ -8,7 +8,7 @@
   <packaging>pom</packaging>
   <modules>
     <module>fourx-core</module>
-    <module>fourx-webapp</module>
+    <module>fourx-rest-server</module>
   </modules>
 
   <name>fourx</name>
