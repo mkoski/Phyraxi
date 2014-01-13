@@ -1,0 +1,19 @@
+<assembly>
+  <id>static</id>
+  <formats>
+    <format>tar.gz</format>
+  </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
+  <fileSets>
+    <fileSet>
+      <directory>src/main/webapp</directory>
+      <excludes>
+        <exclude>WEB-INF/</exclude>
+      </excludes>
+      <fileMode>0644</fileMode>
+      <directoryMode>0755</directoryMode>
+      <outputDirectory>/static</outputDirectory>
+    </fileSet>
+  </fileSets>
+</assembly>
+

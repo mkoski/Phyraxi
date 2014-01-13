@@ -14,7 +14,29 @@
        * dependency on REST server
        * web.xml for deploying the REST server
        * jetty plugin for running locally
-       * assembly for generating static content gzip
+       * leave out server parts from static assembly 
   -->
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <descriptors>
+            <descriptor>src/main/assembly/web-client.xml</descriptor>
+          </descriptors>
+        </configuration>
+        <executions>
+          <execution>
+            <id>static-web-client</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>
