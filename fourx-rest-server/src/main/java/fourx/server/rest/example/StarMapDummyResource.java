@@ -22,18 +22,15 @@ import fourx.server.rest.data.StarMap.StarInfo;
  */
 @Path("dummy-starmap")
 public class StarMapDummyResource {
-    
-    private static final List<StarInfo> STARS = Arrays.asList(
-	    	new StarInfo(
-	    		new Star("Sol", SpectralType.G, 2, LuminosityClass.MAIN_SEQUENCE, 1.0, 1.0, 5777),
-	    		new Coordinates(0,  0,  0))
-	    );
-    private static final StarMap DUMMY_STARMAP = new StarMap(STARS);
-    
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public StarMap getStarMap() {
-	return DUMMY_STARMAP;
-    }
+
+	private static final List<StarInfo> STARS = Arrays.asList(new StarInfo(new Star("Sol", SpectralType.G, 2,
+			LuminosityClass.MAIN_SEQUENCE, 1.0, 1.0, 5777), new Coordinates(0, 0, 0)));
+	private static final StarMap DUMMY_STARMAP = new StarMap(STARS);
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public StarMap getStarMap() {
+		return DUMMY_STARMAP;
+	}
 
 }

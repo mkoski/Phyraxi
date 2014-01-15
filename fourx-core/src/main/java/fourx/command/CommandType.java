@@ -5,8 +5,6 @@ package fourx.command;
  */
 public enum CommandType {
 
-    INIT_GAME,
-    JOIN_GAME,
-    LIST_GAMES
+	INIT_GAME, JOIN_GAME, LIST_GAMES
 
 }

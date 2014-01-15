@@ -7,10 +7,10 @@ import javax.ws.rs.core.MediaType;
 
 @Path("hello")
 public class HelloResource {
-    
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public HelloReply hello() {
-        return HelloReply.INSTANCE;
-    }
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public HelloReply hello() {
+		return HelloReply.INSTANCE;
+	}
 }

@@ -12,11 +12,11 @@ import fourx.server.rest.example.StarMapDummyResource;
  * @author Jani Kaarela (@gmail.com)
  */
 public class RestApplication extends ResourceConfig {
-    
-    public RestApplication() {
-	register(HelloResource.class);
-	register(StarMapDummyResource.class);
-	register(JacksonFeature.class);
-    }
-    
+
+	public RestApplication() {
+		register(HelloResource.class);
+		register(StarMapDummyResource.class);
+		register(JacksonFeature.class);
+	}
+
 }

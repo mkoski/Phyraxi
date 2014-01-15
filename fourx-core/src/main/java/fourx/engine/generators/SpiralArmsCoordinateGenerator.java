@@ -18,8 +18,10 @@ public class SpiralArmsCoordinateGenerator implements CoordinateGenerator {
 		// - randomly determine spiral direction
 		// - divide stars semi-evenly to bulge and arms
 		// - bulge has decreasing density and Z-variation further from center
-		// - for arms, "bending" increases and Z-variation decreases with distance
-		// for bending the spiral: http://en.wikipedia.org/wiki/Hyperbolic_function
+		// - for arms, "bending" increases and Z-variation decreases with
+		// distance
+		// for bending the spiral:
+		// http://en.wikipedia.org/wiki/Hyperbolic_function
 		return null;
 	}
 

@@ -8,8 +8,9 @@ import fourx.command.GameSettings;
 import fourx.domain.Coordinates;
 
 /**
- * A very simple coordinate generator returning completely random coordinates. Z-axis is always zero,
- * and there are no safeguards against multiple instances of the same coordinates.
+ * A very simple coordinate generator returning completely random coordinates.
+ * Z-axis is always zero, and there are no safeguards against multiple instances
+ * of the same coordinates.
  * 
  * @author Jani Kaarela
  */
@@ -30,7 +31,9 @@ public class Random2DCoordinateGenerator implements CoordinateGenerator {
 			int x = random.nextInt(maxCoord) - offset;
 			int y = random.nextInt(maxCoord) - offset;
 			int z = 0; // we totally don't care about Z-axis at this point!
-			coordinates.add(new Coordinates(x, y, z)); // we don't care about multiple instances of same coords either
+			coordinates.add(new Coordinates(x, y, z)); // we don't care about
+														// multiple instances of
+														// same coords either
 		}
 		return coordinates;
 	}
