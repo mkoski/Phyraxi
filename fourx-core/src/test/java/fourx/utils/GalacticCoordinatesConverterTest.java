@@ -5,15 +5,15 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import fourx.domain.Coordinates;
-import fourx.utils.GalacticCoordsConverter.GalacticCoordinates;
+import fourx.utils.GalacticCoordinatesConverter.GalacticCoordinates;
 
 /**
  * 
  * @author Jani Kaarela
  */
-public class GalacticCoordsConverterTest {
+public class GalacticCoordinatesConverterTest {
 	
-	private GalacticCoordsConverter converter = new GalacticCoordsConverter();
+	private GalacticCoordinatesConverter converter = new GalacticCoordinatesConverter();
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void outOfRangeDistanceShouldThrowIllegalArgumentException() {

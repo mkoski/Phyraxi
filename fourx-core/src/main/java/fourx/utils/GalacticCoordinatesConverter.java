@@ -8,7 +8,7 @@ import fourx.domain.Coordinates;
  *  
  * @author Jani Kaarela
  */
-public class GalacticCoordsConverter {
+public class GalacticCoordinatesConverter {
 	
 	/**
 	 * Converts galactic coordinates to {@link Coordinates}.
@@ -67,7 +67,7 @@ public class GalacticCoordsConverter {
 	 */
 	public static void main(String[] args) {
 		if (args.length > 0) {
-			GalacticCoordsConverter converter = new GalacticCoordsConverter();
+			GalacticCoordinatesConverter converter = new GalacticCoordinatesConverter();
 			for (String arg : args) {
 				String[] parts = arg.split(";");
 				if (parts.length != 3) {
