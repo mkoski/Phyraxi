@@ -6,6 +6,10 @@ package fourx.domain;
  * @see http://en.wikipedia.org/wiki/Stellar_classification
  */
 public class Star {
+	
+	public enum Generation {
+		YOUNG, OLD, ANCIENT;
+	}
 
 	private final String name;
 	private final SpectralType spectralType;
