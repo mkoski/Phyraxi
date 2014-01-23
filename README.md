@@ -19,6 +19,6 @@ A complete build can be done by building in the top-level directory. Run "mvn pa
 Running
 -------
 
-* the REST server can be run in standalone-mode; "mvn package && java -jar target/fourx-rest-server-<version>-jar-with-dependencies.jar"
+* the REST server can be run in standalone-mode; "mvn package && java -jar target/fourx-rest-server-&lt;version&gt;-jar-with-dependencies.jar"
 * web client project can be run as a webapp containing the server: "mvn jetty:run"
  * if the above doesn't work, try with the groupId: "mvn org.eclipse.jetty:jetty:run" (or configure plugin groups)
