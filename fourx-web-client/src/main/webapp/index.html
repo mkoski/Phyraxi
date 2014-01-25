@@ -9,18 +9,18 @@
   <!-- << Bootstrap stuff-->
   <style>
     body {
-    background: url(img/hubble-m45_small.jpg) no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    padding-top: 70px;
-    padding-bottom: 30px;
+    	background: url(img/hubble-m45_small.jpg) no-repeat center center fixed;
+    	-webkit-background-size: cover;
+    	-moz-background-size: cover;
+    	-o-background-size: cover;
+    	background-size: cover;
+    	padding-top: 70px;
+    	padding-bottom: 30px;
     }
     #map_container {
-    background: #000;
-    width: 1000px;
-    height: 600px;
+    	background: #000;
+    	width: 1000px;
+    	height: 600px;
     }
   </style>
 </head>
@@ -79,15 +79,15 @@
         // camera attributes
         var VIEW_ANGLE = 45, ASPECT = WIDTH / HEIGHT, NEAR = 0.1, FAR = 10000;
         if (window.WebGLRenderingContext)
-	        renderer = new THREE.WebGLRenderer();
+        	renderer = new THREE.WebGLRenderer();
         else
           renderer = new THREE.CanvasRenderer();
-	      var camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
-	      var scene = new THREE.Scene();
-	      camera.position.z = 1500;
-	      renderer.setSize(WIDTH, HEIGHT);
-	      $map_container.append(renderer.domElement);
-	      var radius = 10, segments = 16, rings = 16;
+	    var camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
+	    var scene = new THREE.Scene();
+	    camera.position.z = 1500;
+	    renderer.setSize(WIDTH, HEIGHT);
+	    $map_container.append(renderer.domElement);
+	    var radius = 10, segments = 16, rings = 16;
         for (var i in starmap.stars) {
           var x = starmap.stars[i]['coordinates']['x'];
           var y = starmap.stars[i]['coordinates']['y'];
@@ -103,7 +103,7 @@
         directionalLight.position.set(1, 1, 1);
         scene.add(camera);
         scene.add(directionalLight);
-	      renderer.render(scene, camera);
+	    renderer.render(scene, camera);
     });
   });
 });
