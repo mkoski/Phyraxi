@@ -52,23 +52,15 @@
   </div>
 </div>
 <!-- remove http: when deployed -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+<script src="js/jquery-1.11.0.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <!-- remove http: when deployed -->
 <script src="js/three.min.js"></script>
+<script src="js/TrackballControls.js"></script>
+<script src="js/config.js"></script>
 <script>
     $(document).ready(function(){
-      var starmap_url = "http://localhost:8080/resources/dummy-starmap";
-      var $map_container = $('#map_container');
-      var spectral_types = {
-        O : 0x0000ff, // blue
-        B : 0x00ffff, // blue-white
-        A : 0xffffff, // white
-        F : 0xffff99, // yellow-whit
-        G : 0xffff00, // yellow
-        K : 0xff9933, // orange
-        M : 0xff0000 //red
-      };
+      var $map_container = $('#map_container');     
       $( "#create_map" ).click(function() {
         $('#map_container').empty();
         $.getJSON( starmap_url, function(json) {
@@ -86,6 +78,11 @@
 	    var scene = new THREE.Scene();
 	    camera.position.z = 1500;
 	    renderer.setSize(WIDTH, HEIGHT);
+	    
+	    // GLOW SCENE
+	    glowscene = new THREE.Scene();
+	    glowscene.add( new THREE.AmbientLight( 0xffffff ) );
+	    
 	    $map_container.append(renderer.domElement);
 	    var radius = 10, segments = 16, rings = 16;
         for (var i in starmap.stars) {
@@ -97,13 +94,22 @@
             new THREE.SphereGeometry(radius, segments, rings),
             sphereMaterial);
             sphere.position.set(x,y,z);
+            
+            var light = new THREE.PointLight( 0xffffff, 10, 0);
+            light.position.set( x, y, z );
+            scene.add( light );
+            
             scene.add(sphere);
         }
         var directionalLight = new THREE.DirectionalLight(0x9f9f9f, 1);
-        directionalLight.position.set(1, 1, 1);
-        scene.add(camera);
+        directionalLight.position.set(1, 1, 1);      
         scene.add(directionalLight);
+        scene.add(camera);
+     // create a camera contol
+		//var cameraControls	= new THREEx.DragPanControls(camera);  
 	    renderer.render(scene, camera);
+	    
+	    
     });
   });
 });
