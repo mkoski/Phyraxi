@@ -3,10 +3,11 @@ package fourx.engine.generators;
 import fourx.domain.Star;
 
 /**
+ * A generator for generating a main-sequence star population.
  * 
  * @author Jani Kaarela
  */
-public interface StarGenerator {
+public interface MainSequenceStarGenerator {
 	
 	/**
 	 * Generate a star of the given generation.

@@ -8,7 +8,11 @@ package fourx.domain;
 public class Star {
 	
 	public enum Generation {
-		YOUNG, OLD, ANCIENT;
+		/** Young population; metal-rich, likely to have planets. */
+		POPULATION_I,
+		/** Old population; metal-poor, unlikely to have planets. */
+		POPULATION_II;
+		/* A speculative Population III is the ancient, metal-free generation, now extint. */
 	}
 
 	private final String name;
@@ -17,17 +21,17 @@ public class Star {
 	private final LuminosityClass luminosityClass;
 	private final double mass;
 	private final double brightness;
-	private final int surfaceTemperature;
+	private final int effectiveTemperature;
 
 	public Star(String name, SpectralType spectralType, int spectralNumber, LuminosityClass luminosityClass,
-			double mass, double brightness, int surfaceTemperature) {
+			double mass, double brightness, int effectiveTemperature) {
 		this.name = name;
 		this.spectralType = spectralType;
 		this.spectralNumber = spectralNumber;
 		this.luminosityClass = luminosityClass;
 		this.mass = mass;
 		this.brightness = brightness;
-		this.surfaceTemperature = surfaceTemperature;
+		this.effectiveTemperature = effectiveTemperature;
 	}
 
 	/**
@@ -93,8 +97,8 @@ public class Star {
 	 * 
 	 * @return the surfaceTemperature
 	 */
-	public int getSurfaceTemperature() {
-		return surfaceTemperature;
+	public int getEffectiveTemperature() {
+		return effectiveTemperature;
 	}
 
 	public String toString() {

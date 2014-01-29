@@ -1,5 +1,11 @@
 package fourx.engine.generators;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Random;
+
+import fourx.domain.LuminosityClass;
+import fourx.domain.SpectralType;
 import fourx.domain.Star;
 import fourx.domain.Star.Generation;
 
@@ -9,22 +15,106 @@ import fourx.domain.Star.Generation;
  * 
  * @author Jani Kaarela
  */
-public class StatisticalStarGenerator implements StarGenerator {
+public class StatisticalStarGenerator implements MainSequenceStarGenerator {
+	
+	// Further development: configurable percentages for spectral types and random mass "weighting-factor"?
+	
+	static final double MINIMUM_SOLAR_MASSES = 0.08;
+	static final double MAXIMUM_SOLAR_MASSES = 200;
+	
+	// the previous class is added up, to get an upper limit of number range
+	private static final int O_CLASS_PERCENTAGE = 3;
+	private static final int B_CLASS_PERCENTAGE = 5 + O_CLASS_PERCENTAGE; 
+	private static final int A_CLASS_PERCENTAGE = 7 + B_CLASS_PERCENTAGE;
+	private static final int F_CLASS_PERCENTAGE = 10 + A_CLASS_PERCENTAGE;
+	private static final int G_CLASS_PERCENTAGE = 15 + F_CLASS_PERCENTAGE;
+	private static final int K_CLASS_PERCENTAGE = 20 + G_CLASS_PERCENTAGE;
+	private static final int M_CLASS_PERCENTAGE = 40 + K_CLASS_PERCENTAGE;
+	
+	private StarPropertiesCalculator calculator = new StarPropertiesCalculator();
 
 	public Star generateStar(Generation generation) {
-		/*
-		 * TODO statistically semi-realistic generation
-		 * - determine spectral type
-		 * - determine mass
-		 * - determine luminosity class
-		 * - calculate brightness, radius, effective temperature
-		 */
-		return null;
+		return generateMainSequenceStar(generation);
 	}
 	
-	/*
-	 * type distribution could be for example:
-	 * M 40%, K 20%, G 15%, F 10%, A 5%, B 5%, O 5%
-	 */
+	protected Star generateMainSequenceStar(Generation generation) {
+		LuminosityClass luminosityClass = determineLuminosityClass(generation);
+		SpectralType spectralType = determineSpectralType(generation, luminosityClass);
+		double mass = determineMass(generation, luminosityClass, spectralType);
+		int spectralNumber = determineSpectralNumber(generation, luminosityClass, spectralType, mass);
+		double brightness = calculator.calculateBrightness(mass);
+		int effectiveTemperature = determineEffectiveTemperature(spectralType, spectralNumber);
+		String name = generateName();
+		return new Star(name, spectralType, spectralNumber, luminosityClass, mass, brightness, effectiveTemperature);
+	}
+
+	protected LuminosityClass determineLuminosityClass(Generation generation) {
+		return LuminosityClass.MAIN_SEQUENCE;
+	}
+	
+	protected SpectralType determineSpectralType(Generation generation, LuminosityClass luminosityClass) {
+		SpectralType spectralType = null;
+		int randomInt = new Random().nextInt(100) + 1;
+		if (randomInt <= O_CLASS_PERCENTAGE) {
+			spectralType = SpectralType.O;
+		} else if (randomInt <= B_CLASS_PERCENTAGE) {
+			spectralType = SpectralType.B;
+		} else if (randomInt <= A_CLASS_PERCENTAGE) {
+			spectralType = SpectralType.A;
+		} else if (randomInt <= F_CLASS_PERCENTAGE) {
+			spectralType = SpectralType.F;
+		} else if (randomInt <= G_CLASS_PERCENTAGE) {
+			spectralType = SpectralType.G;
+		} else if (randomInt <= K_CLASS_PERCENTAGE) {
+			spectralType = SpectralType.K;
+		} else if (randomInt <= M_CLASS_PERCENTAGE) {
+			spectralType = SpectralType.M;
+		} else {
+			throw new IllegalStateException("This shouldn't happen - be very alarmed.");
+		}
+		return spectralType;
+	}
+	
+	protected double determineMass(Generation generation, LuminosityClass luminosityClass, SpectralType spectralType) {
+		double random = weightedRandom();
+		double result = MINIMUM_SOLAR_MASSES + ((MAXIMUM_SOLAR_MASSES - MINIMUM_SOLAR_MASSES) * random);
+		return BigDecimal.valueOf(result).setScale(3, RoundingMode.HALF_UP).doubleValue();
+	}
+	
+	private double weightedRandom() {
+		int weightingPasses;
+		double random = Math.random();
+		if (random < 0.075) {
+			weightingPasses = 0;
+		} else if (random < 0.15) {
+			weightingPasses = 1;
+		} else if (random < 0.3) {
+			weightingPasses = 2;
+		} else if (random < 0.6){
+			weightingPasses = 3;
+		} else {
+			weightingPasses = 4;
+		}
+		for (int i = 0; i < weightingPasses; i++) {
+			random = random * Math.random();
+		}
+		return random;
+	}
+	
+	protected int determineSpectralNumber(Generation generation, LuminosityClass luminosityClass,
+			SpectralType spectralType, double mass) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	protected int determineEffectiveTemperature(SpectralType spectralType, int spectralNumber) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	protected String generateName() {
+		// TODO generate random name
+		return "";
+	}
 
 }

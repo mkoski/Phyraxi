@@ -32,5 +32,9 @@ public class StarPropertiesCalculator {
 		}
 		return multiplier * Math.pow(mass, exponent);
 	}
+	
+	public double calculateDiameter(double mass, int effectiveTemperature) {
+		return 0;
+	}
 
 }
