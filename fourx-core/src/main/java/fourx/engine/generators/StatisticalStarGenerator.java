@@ -17,11 +17,6 @@ import fourx.domain.Star.Generation;
  */
 public class StatisticalStarGenerator implements MainSequenceStarGenerator {
 	
-	// Further development: configurable percentages for spectral types and random mass "weighting-factor"?
-	
-	static final double MINIMUM_SOLAR_MASSES = 0.08;
-	static final double MAXIMUM_SOLAR_MASSES = 200;
-	
 	// the previous class is added up, to get an upper limit of number range
 	private static final int O_CLASS_PERCENTAGE = 3;
 	private static final int B_CLASS_PERCENTAGE = 5 + O_CLASS_PERCENTAGE; 
@@ -41,9 +36,10 @@ public class StatisticalStarGenerator implements MainSequenceStarGenerator {
 		LuminosityClass luminosityClass = determineLuminosityClass(generation);
 		SpectralType spectralType = determineSpectralType(generation, luminosityClass);
 		double mass = determineMass(generation, luminosityClass, spectralType);
-		int spectralNumber = determineSpectralNumber(generation, luminosityClass, spectralType, mass);
+		int effectiveTemperature = determineEffectiveTemperature(spectralType);
+		int spectralNumber = determineSpectralNumber(spectralType, effectiveTemperature);
 		double brightness = calculator.calculateBrightness(mass);
-		int effectiveTemperature = determineEffectiveTemperature(spectralType, spectralNumber);
+		
 		String name = generateName();
 		return new Star(name, spectralType, spectralNumber, luminosityClass, mass, brightness, effectiveTemperature);
 	}
@@ -77,7 +73,7 @@ public class StatisticalStarGenerator implements MainSequenceStarGenerator {
 	
 	protected double determineMass(Generation generation, LuminosityClass luminosityClass, SpectralType spectralType) {
 		double random = weightedRandom();
-		double result = MINIMUM_SOLAR_MASSES + ((MAXIMUM_SOLAR_MASSES - MINIMUM_SOLAR_MASSES) * random);
+		double result = spectralType.getMinMass() + ((spectralType.getMaxMass() - spectralType.getMinMass()) * random);
 		return BigDecimal.valueOf(result).setScale(3, RoundingMode.HALF_UP).doubleValue();
 	}
 	
@@ -101,15 +97,16 @@ public class StatisticalStarGenerator implements MainSequenceStarGenerator {
 		return random;
 	}
 	
-	protected int determineSpectralNumber(Generation generation, LuminosityClass luminosityClass,
-			SpectralType spectralType, double mass) {
-		// TODO Auto-generated method stub
-		return 0;
+	protected int determineEffectiveTemperature(SpectralType spectralType) {
+		double random = Math.random();
+		return spectralType.getMinEffectiveTemperature() + ((int) Math.floor(
+				(spectralType.getMaxEffectiveTemperature() - spectralType.getMinEffectiveTemperature()) * random));
 	}
 	
-	protected int determineEffectiveTemperature(SpectralType spectralType, int spectralNumber) {
-		// TODO Auto-generated method stub
-		return 0;
+	protected int determineSpectralNumber(SpectralType spectralType, int effectiveTemperature) {
+		int range = spectralType.getMaxEffectiveTemperature() - spectralType.getMinEffectiveTemperature();
+		int step = range / 9;
+		return ((spectralType.getMaxEffectiveTemperature() - effectiveTemperature) / step);
 	}
 	
 	protected String generateName() {
