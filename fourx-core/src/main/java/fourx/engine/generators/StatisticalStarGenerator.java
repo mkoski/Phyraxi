@@ -38,7 +38,8 @@ public class StatisticalStarGenerator implements MainSequenceStarGenerator {
 		double mass = determineMass(generation, luminosityClass, spectralType);
 		int effectiveTemperature = determineEffectiveTemperature(spectralType);
 		int spectralNumber = determineSpectralNumber(spectralType, effectiveTemperature);
-		double brightness = calculator.calculateBrightness(mass);
+		double brightness = BigDecimal.valueOf(calculator.calculateBrightness(mass))
+				.setScale(3, RoundingMode.HALF_UP).doubleValue();
 		
 		String name = generateName();
 		return new Star(name, spectralType, spectralNumber, luminosityClass, mass, brightness, effectiveTemperature);
@@ -72,29 +73,9 @@ public class StatisticalStarGenerator implements MainSequenceStarGenerator {
 	}
 	
 	protected double determineMass(Generation generation, LuminosityClass luminosityClass, SpectralType spectralType) {
-		double random = weightedRandom();
+		double random = Math.random();
 		double result = spectralType.getMinMass() + ((spectralType.getMaxMass() - spectralType.getMinMass()) * random);
 		return BigDecimal.valueOf(result).setScale(3, RoundingMode.HALF_UP).doubleValue();
-	}
-	
-	private double weightedRandom() {
-		int weightingPasses;
-		double random = Math.random();
-		if (random < 0.075) {
-			weightingPasses = 0;
-		} else if (random < 0.15) {
-			weightingPasses = 1;
-		} else if (random < 0.3) {
-			weightingPasses = 2;
-		} else if (random < 0.6){
-			weightingPasses = 3;
-		} else {
-			weightingPasses = 4;
-		}
-		for (int i = 0; i < weightingPasses; i++) {
-			random = random * Math.random();
-		}
-		return random;
 	}
 	
 	protected int determineEffectiveTemperature(SpectralType spectralType) {
