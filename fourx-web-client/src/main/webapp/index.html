@@ -51,8 +51,7 @@ body {
 				.click(
 						function() {
 							$('#map_container').empty();
-							$
-									.getJSON(
+							$.getJSON(
 											starmap_url,
 											function(json) {
 												var starmap = json;
@@ -70,19 +69,16 @@ body {
 													// SCENE 
 													scene = new THREE.Scene();
 													glowscene = new THREE.Scene();
-													glowscene
-															.add(new THREE.AmbientLight(
-																	0xffffff));
+													glowscene.add(new THREE.AmbientLight(0xffffff));
 													var radius = 10, segments = 16, rings = 16;
 													for ( var i in starmap.stars) {
 														var x = starmap.stars[i]['coordinates']['x'];
 														var y = starmap.stars[i]['coordinates']['y'];
 														var z = starmap.stars[i]['coordinates']['z'];
-														var sphereMaterial = new THREE.MeshLambertMaterial(
-																{
+														var sphereMaterial = new THREE.MeshLambertMaterial({
 																	color : spectral_types[starmap.stars[i]['type']
 																			.charAt(0)]
-																});
+														});
 														var sphere = new THREE.Mesh(
 																new THREE.SphereGeometry(
 																		radius,
