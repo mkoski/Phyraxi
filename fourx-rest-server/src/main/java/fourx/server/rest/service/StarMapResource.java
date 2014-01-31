@@ -1,10 +1,12 @@
-package fourx.server.rest.example;
+package fourx.server.rest.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -12,18 +14,23 @@ import fourx.domain.Coordinates;
 import fourx.domain.LuminosityClass;
 import fourx.domain.SpectralType;
 import fourx.domain.Star;
+import fourx.engine.generators.Random2DCoordinateGenerator;
+import fourx.engine.generators.StatisticalStarGenerator;
 import fourx.server.rest.data.StarMap;
 import fourx.server.rest.data.StarMap.StarInfo;
 
 /**
- * A dummy resource returning a hard-coded star map of the nearby space.
+ * A resource returning different star maps.
  * 
  * @author Jani Kaarela (@gmail.com)
  */
-@Path("dummy-starmap")
-public class StarMapDummyResource {
+@Path("starmap")
+@Produces(MediaType.APPLICATION_JSON)
+public class StarMapResource {
 
-	private static final List<StarInfo> STARS = Arrays.asList(
+	private static final int RANDOM_MAP_DEFAULT_SIZE = 30;
+	private static final int RANDOM_MAP_MAX_SIZE = 500;
+	private static final List<StarInfo> NEAR_SPACE = Arrays.asList(
 			new StarInfo(new Star(
 					"Sol", SpectralType.G, 2, LuminosityClass.MAIN_SEQUENCE, 1.0, 1.0, 5777),
 					new Coordinates(0, 0, 0)),
@@ -61,13 +68,32 @@ public class StarMapDummyResource {
 					"Lacaille 9352", SpectralType.M, 1, LuminosityClass.MAIN_SEQUENCE, 0.503, 0.033, 3626),
 					new Coordinates(39,435,-980))
 	);
-	
-	private static final StarMap DUMMY_STARMAP = new StarMap(STARS);
 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public StarMap getStarMap() {
-		return DUMMY_STARMAP;
+	@GET @Path("/near-space")
+	public StarMap nearSpaceStarMap() {
+		return new StarMap(NEAR_SPACE);
+	}
+	
+	@GET @Path("/random")
+	public StarMap randomStarMap() {
+		return randomStarMap(RANDOM_MAP_DEFAULT_SIZE);
+	}
+	
+	@GET @Path("/random/{size}")
+	public StarMap randomStarMap(@PathParam("size") int size) {
+		if (size < 1 || size > RANDOM_MAP_MAX_SIZE) {
+			throw new IllegalArgumentException("Invalid star map size: " + size);
+		}
+		List<StarInfo> stars = new ArrayList<>(size);
+		Random2DCoordinateGenerator coordinateGenerator = new Random2DCoordinateGenerator();
+		List<Coordinates> coordinateList = coordinateGenerator.generateStarSystemCoordinates(size);
+		StatisticalStarGenerator starGenerator = new StatisticalStarGenerator();
+		for (Coordinates coordinates : coordinateList) {
+			Star star = starGenerator.generateStar(Star.Generation.POPULATION_I); // couldn't care less
+			StarInfo starInfo = new StarInfo(star, coordinates);
+			stars.add(starInfo);
+		}
+		return new StarMap(stars);
 	}
 
 }

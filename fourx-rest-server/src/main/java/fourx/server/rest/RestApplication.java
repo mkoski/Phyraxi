@@ -4,7 +4,7 @@ import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import fourx.server.rest.example.HelloResource;
-import fourx.server.rest.example.StarMapDummyResource;
+import fourx.server.rest.service.StarMapResource;
 
 /**
  * Resource configuration for running the REST server.
@@ -15,7 +15,7 @@ public class RestApplication extends ResourceConfig {
 
 	public RestApplication() {
 		register(HelloResource.class);
-		register(StarMapDummyResource.class);
+		register(StarMapResource.class);
 		register(JacksonFeature.class);
 	}
 
