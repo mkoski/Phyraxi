@@ -19,6 +19,10 @@ public class Random2DCoordinateGenerator implements CoordinateGenerator {
 	@Override
 	public List<Coordinates> generateStarSystemCoordinates(GameSettings gameSettings) {
 		int starCount = gameSettings.getGalaxySize();
+		return generateStarSystemCoordinates(starCount);
+	}
+	
+	public List<Coordinates> generateStarSystemCoordinates(int starCount) {
 		if (starCount < 1) {
 			throw new IllegalArgumentException("Invalid galaxy size: " + starCount);
 		}

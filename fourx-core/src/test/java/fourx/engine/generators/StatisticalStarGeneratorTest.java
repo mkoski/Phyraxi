@@ -1,12 +1,12 @@
 package fourx.engine.generators;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
+import org.junit.Ignore;
 import org.junit.Test;
+
+import fourx.domain.SpectralType;
+import fourx.domain.Star;
 
 /**
  * @author Jani Kaarela (@gmail.com)
@@ -14,28 +14,31 @@ import org.junit.Test;
  */
 public class StatisticalStarGeneratorTest {
 	
+	private StatisticalStarGenerator generator = new StatisticalStarGenerator();
+	
 	@Test
-	public void testDetermineMass() {
-		final int testRunSize = 50;
-		final boolean printDebugInfo = true;
-		StatisticalStarGenerator generator = new StatisticalStarGenerator();
-		List<Double> masses = new ArrayList<>(testRunSize);
-		double totalMasses = 0;
-		for (int i = 0; i < testRunSize; i++) {
-			double mass = generator.determineMass(null, null, null);
-			totalMasses += mass;
-			masses.add(new Double(mass));
+	public void maxTemperatureShouldHaveSpectralNumberZero() {
+		int spectralNumber = generator.determineSpectralNumber(
+				SpectralType.A, SpectralType.A.getMaxEffectiveTemperature());
+		assertEquals(0, spectralNumber);
+	}
+	
+	@Test
+	public void minTemperatureShouldHaveSpectralNumberNine() {
+		int spectralNumber = generator.determineSpectralNumber(
+				SpectralType.A, SpectralType.A.getMinEffectiveTemperature());
+		assertEquals(9, spectralNumber);
+	}
+	
+	@Ignore("This merely demonstrates the results, doesn't test anything.")
+	@Test
+	public void testGenerator() {
+		for (int i = 0; i < 20; i++) {
+			Star star = generator.generateStar(Star.Generation.POPULATION_I);
+			System.out.println(String.valueOf(star.getSpectralType()) + star.getSpectralNumber() +
+					star.getLuminosityClass() +	" " + star.getMass() + "M(Sol); " + star.getBrightness() + "L(Sol); " +
+					star.getEffectiveTemperature() + "K");
 		}
-		final double minMass = Collections.min(masses);
-		final double maxMass = Collections.max(masses);
-		if (printDebugInfo) {
-			System.out.println("Test run size: " + testRunSize);
-			System.out.println("Minimum mass: " + minMass);
-			System.out.println("Maximum mass: " + maxMass);
-			System.out.println("Average mass: " + (totalMasses / testRunSize));
-		}
-		assertTrue(minMass >= StatisticalStarGenerator.MINIMUM_SOLAR_MASSES);
-		assertTrue(maxMass <= StatisticalStarGenerator.MAXIMUM_SOLAR_MASSES);
 	}
 
 }
