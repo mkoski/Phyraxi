@@ -8,158 +8,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- << Bootstrap stuff-->
 <style>
-body {
-	background: url(img/hubble-m45_small.jpg) no-repeat center center fixed;
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
-	padding-top: 0px;
-	padding-bottom: 0px;
-}
-
 #map_container {
-	background: #000;
+	background: #FFF;
 }
 </style>
 </head>
 </head>
 <body>
-	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-		<div class="container">
-			<div class="navbar-collapse collapse">
-				<ul class="nav navbar-nav">
-					<li class="dropdown"><a id="create_map" href="#">Create A
-							Dummy Starmap</a></li>
-				</ul>
-			</div>
-		</div>
-	</div>
-	<div id="map_container"></div>
-	</div>
-	<script src="js/jquery-1.11.0.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/three.min.js"></script>
-	<script src="js/TrackballControls.js"></script>
-	<script src="js/OrbitControls.js"></script>
-	<script src="js/THREEx.KeyboardState.js"></script>
-	<script src="js/THREEx.FullScreen.js"></script>
-	<script src="js/THREEx.WindowResize.js"></script>
-	<script src="js/config.js"></script>
-	<script>
-		$("#create_map")
-				.click(
-						function() {
-							$('#map_container').empty();
-							$.getJSON(
-											starmap_url,
-											function(json) {
-												var starmap = json;
-												//global variables
-												var container, scene, camera, renderer, controls, stats;
-												var keyboard = new THREEx.KeyboardState();
-												var clock = new THREE.Clock();
-												//custom global variables
-												var cube;
-												//initialization
-												init();
-												//animation loop / game loop
-												animate();
-												function init() {
-													// SCENE 
-													scene = new THREE.Scene();
-													glowscene = new THREE.Scene();
-													glowscene.add(new THREE.AmbientLight(0xffffff));
-													var radius = 10, segments = 16, rings = 16;
-													for ( var i in starmap.stars) {
-														var x = starmap.stars[i]['coordinates']['x'];
-														var y = starmap.stars[i]['coordinates']['y'];
-														var z = starmap.stars[i]['coordinates']['z'];
-														var sphereMaterial = new THREE.MeshLambertMaterial({
-																	color : spectral_types[starmap.stars[i]['type']
-																			.charAt(0)]
-														});
-														var sphere = new THREE.Mesh(
-																new THREE.SphereGeometry(
-																		radius,
-																		segments,
-																		rings),
-																sphereMaterial);
-														sphere.position.set(x,
-																y, z);
-
-														var light = new THREE.PointLight(
-																0xffffff, 10, 0);
-														light.position.set(x,
-																y, z);
-														scene.add(light);
-
-														scene.add(sphere);
-													}
-
-													// camera
-													// set the view size in pixels
-													var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
-													// camera attributes
-													var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH
-															/ SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
-													// set up camera
-													camera = new THREE.PerspectiveCamera(
-															VIEW_ANGLE, ASPECT,
-															NEAR, FAR);
-													// add the camera to the scene
-													scene.add(camera);
-													camera.position.set(0, 100,
-															2500);
-													camera
-															.lookAt(scene.position);
-													// render
-													renderer = new THREE.WebGLRenderer({
-																antialias : true
-															});
-													renderer.setSize(
-															SCREEN_WIDTH,
-															SCREEN_HEIGHT);
-
-													container = document
-															.getElementById('map_container');
-
-													container
-															.appendChild(renderer.domElement);
-													// automatically resize renderer
-													THREEx.WindowResize(
-															renderer, camera);
-													// toggle full-screen 
-													THREEx.FullScreen.bindKey({
-														charCode : 'm'
-																.charCodeAt(0)
-													});
-
-													// CONTROLS
-													controls = new THREE.OrbitControls(
-															camera,
-															renderer.domElement);
-
-												}
-
-												function animate() {
-													requestAnimationFrame(animate);
-													render();
-													update();
-												}
-
-												function update() {
-													var delta = clock
-															.getDelta();
-													controls.update();
-												}
-
-												function render() {
-													renderer.render(scene,
-															camera);
-												}
-											});
-						});
-	</script>
+  <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  </div>
+  <div id="map_container"></div>
+  </div>
+  <script src="js/jquery-1.11.0.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/three.min.js"></script>
+  <script src="js/TrackballControls.js"></script>
+  <script src="js/OrbitControls.js"></script>
+  <script src="js/THREEx.KeyboardState.js"></script>
+  <script src="js/THREEx.FullScreen.js"></script>
+  <script src="js/THREEx.WindowResize.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/space.js"></script>
 </body>
 </html>
