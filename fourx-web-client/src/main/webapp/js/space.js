@@ -3,11 +3,11 @@
 		var starmap = json;
 		var container = document.getElementById('map_container');
 		var WIDTH = window.innerWidth, HEIGHT = window.innerHeight;
-		var radius = 10, segments = 32, rings = 6;
+		var radius = 5, segments = 32, rings = 6;
 		var scene = new THREE.Scene();
 		var VIEW_ANGLE = 45, ASPECT = WIDTH / HEIGHT, NEAR = 0.1, FAR = 20000;
 		var camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
-		camera.position.z = 150;
+		camera.position.z = 30;
 		var renderer = new THREE.WebGLRenderer();
 		renderer.setSize(WIDTH, HEIGHT);
 		
@@ -15,7 +15,6 @@
 			var x = starmap.stars[i]['coordinates']['x'];
 			var y = starmap.stars[i]['coordinates']['y'];
 			var z = starmap.stars[i]['coordinates']['z'];
-			console.log("Loop.");
 			var sphereMaterial = new THREE.MeshLambertMaterial({
 				color : spectral_types[starmap.stars[i]['type'].charAt(0)]
 			});
@@ -24,16 +23,13 @@
 				map : THREE.ImageUtils
 						.loadTexture('img/'
 								+ spectral_types_jpg[starmap.stars[i]['type']
-										.charAt(0)]),
-			}));
-			// var light = new THREE.PointLight(0xffffff, 0.6, 0);
-			var light = new THREE.DirectionalLight(0xffffff, 0.5);
-			light.position.set(x, y, z);
-			scene.add(light);
+										.charAt(0)]),									
+			}));			
 			sphere.position.set(x, y, z);		
 			scene.add(sphere)
 		}
-		
+		var ambientLight = new THREE.AmbientLight(0xffffff);
+	      scene.add(ambientLight);
 		var starfield = createStars(10000, 64);
 		scene.add(starfield);
 		var controls = new THREE.TrackballControls(camera);
