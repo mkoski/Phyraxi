@@ -38,6 +38,7 @@ public class ConstellationStarNameGenerator implements StarNameGenerator {
 	};
 	private static final int MAX_RETRIES = 10;
 	private final Set<String> generatedNames = new HashSet<>(50);
+	private final RandomStarNameGenerator fallbackGenerator = new RandomStarNameGenerator();
 
 	public String generateName() {
 		String generatedName = null;
@@ -54,8 +55,10 @@ public class ConstellationStarNameGenerator implements StarNameGenerator {
 			}
 		}
 		if (generatedName == null) {
-			// TODO: implement a "full random" fall back mechanism?
-			throw new IllegalStateException("Failed to generate a unique name!");
+			do {
+				generatedName = fallbackGenerator.generateName();
+			} while (generatedNames.contains(generatedName));
+			generatedNames.add(generatedName);
 		}
 		return generatedName;
 	}
