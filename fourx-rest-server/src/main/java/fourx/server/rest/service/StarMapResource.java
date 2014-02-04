@@ -14,7 +14,7 @@ import fourx.domain.Coordinates;
 import fourx.domain.LuminosityClass;
 import fourx.domain.SpectralType;
 import fourx.domain.Star;
-import fourx.engine.generators.Random2DCoordinateGenerator;
+import fourx.engine.generators.RandomCoordinateGenerator;
 import fourx.engine.generators.StatisticalStarGenerator;
 import fourx.server.rest.data.StarMap;
 import fourx.server.rest.data.StarMap.StarInfo;
@@ -85,7 +85,7 @@ public class StarMapResource {
 			throw new IllegalArgumentException("Invalid star map size: " + size);
 		}
 		List<StarInfo> stars = new ArrayList<>(size);
-		Random2DCoordinateGenerator coordinateGenerator = new Random2DCoordinateGenerator();
+		RandomCoordinateGenerator coordinateGenerator = new RandomCoordinateGenerator();
 		List<Coordinates> coordinateList = coordinateGenerator.generateStarSystemCoordinates(size);
 		StatisticalStarGenerator starGenerator = new StatisticalStarGenerator();
 		for (Coordinates coordinates : coordinateList) {

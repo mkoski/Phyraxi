@@ -19,7 +19,7 @@ public class ConstellationStarNameGenerator implements StarNameGenerator {
 	};
 	private static final String[] CONSTELLATIONS = {
 		"Andromedae", "Antliae", "Apodis", "Aquarii", "Aquilae", "Arae",
-		"Arietis", "Aurigae", "Boötis", "Caeli", "Camelopardalis", "Cancri",
+		"Arietis", "Aurigae", "Bo\u00F6tis", "Caeli", "Camelopardalis", "Cancri",
 		"Canum Venaticorum", "Canis Majoris", "Canis Minoris", "Capricorni",
 		"Carinae", "Cassiopeiae", "Centauri", "Cephei", "Ceti",
 		"Chamaeleontis", "Circini", "Columbae", "Comae Berenices",

@@ -11,7 +11,7 @@ import fourx.domain.Star.Generation;
 
 /**
  * A star generator which aims to create &quot;statistically sound&quot; star populations, with a
- * slight nod towards diversity at the expense of realism.
+ * considerable nod towards diversity at the expense of realism.
  * 
  * @author Jani Kaarela
  */
