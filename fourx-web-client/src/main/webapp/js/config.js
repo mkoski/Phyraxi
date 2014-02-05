@@ -1,4 +1,4 @@
-var starmap_url = "http://localhost:8080/resources/starmap/near-space";
+var starmap_url = "http://localhost:8080/resources/starmap/random/30";
 var spectral_types = {
         O : 0x0000ff, // blue
         B : 0x00ffff, // blue-white

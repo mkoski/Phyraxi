@@ -5,7 +5,7 @@
 						var starmap = json;		
 						var container = document.getElementById('map_container');
 						var WIDTH = window.innerWidth, HEIGHT = window.innerHeight;
-						var radius = 10, segments = 32, rings = 6;
+						var radius = 1, segments = 32, rings = 6;
 						var scene = new THREE.Scene();
 						var VIEW_ANGLE = 45, ASPECT = WIDTH / HEIGHT, NEAR = 0.1, FAR = 20000;
 						var camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR,
@@ -49,24 +49,9 @@
 							containerStar.add(sphereTextured);
 							containerStar.add(sphere);
 	
-							// Particles						
-							pMaterial = new THREE.ParticleBasicMaterial({
-								color: 0xFFFFFF,
-								size: 200,
-								map: THREE.ImageUtils.loadTexture(
-										"img/corona_0.png"
-								),
-								blending: THREE.AdditiveBlending,
-								transparent: true
-							});				
-							particle = new THREE.Vertex(
-									new THREE.Vector3(x+100, y+100, z+20)
-								);
-							particles.vertices.push(particle);	
+	
 						}
-						
-						var particleSystem = new THREE.ParticleSystem(particles,pMaterial);
-						scene.add(particleSystem);
+
 						
 						var ambientLight = new THREE.AmbientLight(0xffffff);
 						scene.add(ambientLight);
@@ -79,9 +64,6 @@
 						render();
 						
 						function render() {
-							particleSystem.rotation.x += 0.02;
-							particleSystem.rotation.x += 0.01;
-							particleSystem.rotation.z += 0.01;
 							requestAnimationFrame(render);
 							renderer.render(scene, camera);
 							controls.update();
