@@ -10,7 +10,7 @@ package fourx.domain;
  */
 public class DistanceMarginCoordinatesKey {
 	
-	private static final int DISTANCE_MARGIN = 5;
+	private static final int DISTANCE_MARGIN = 500;
 	private final Coordinates coordinates;
 	
 	public DistanceMarginCoordinatesKey(Coordinates coordinates) {

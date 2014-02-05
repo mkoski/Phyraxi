@@ -12,12 +12,18 @@ import fourx.domain.Star;
  */
 public class StarMap {
 
+	private final int radius;
 	private final List<StarInfo> stars;
 
-	public StarMap(List<StarInfo> stars) {
+	public StarMap(int radius, List<StarInfo> stars) {
+		this.radius = radius;
 		this.stars = stars;
 	}
 
+	public int getRadius() {
+		return radius;
+	}
+	
 	public List<StarInfo> getStars() {
 		return stars;
 	}

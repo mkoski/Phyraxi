@@ -9,16 +9,20 @@ import java.util.Random;
 import fourx.command.GameSettings;
 import fourx.domain.Coordinates;
 import fourx.domain.DistanceMarginCoordinatesKey;
+import fourx.utils.GalacticCoordinatesConverter;
 
 /**
- * A very simple coordinate generator returning completely random coordinates.
+ * A very simple coordinate generator returning very random coordinates.
  * 
  * @author Jani Kaarela
  */
 public class RandomCoordinateGenerator implements CoordinateGenerator {
 	
 	private static final int MAX_STAR_COUNT = 1000;
-	private static final int MAP_SIZE_FACTOR = 5;
+	private static final int MAP_SIZE_FACTOR = 300;
+	private static final int DISTANCE_WEIGHTING_FACTOR = 3;
+	
+	private GalacticCoordinatesConverter converter = new GalacticCoordinatesConverter();
 
 	@Override
 	public List<Coordinates> generateStarSystemCoordinates(GameSettings gameSettings) {
@@ -30,19 +34,13 @@ public class RandomCoordinateGenerator implements CoordinateGenerator {
 		if (starCount < 1 || starCount > MAX_STAR_COUNT) {
 			throw new IllegalArgumentException("Invalid galaxy size: " + starCount);
 		}
-		final int mapSize = MAP_SIZE_FACTOR * starCount;
-		final int maxCoord = mapSize + 1;
-		final int offset = mapSize / 2;
 		Random random = new Random();
 		Map<DistanceMarginCoordinatesKey, Coordinates> generatedCoords = new HashMap<>(starCount);
-		//List<Coordinates> coordinates = new ArrayList<>(starCount);
 		while (generatedCoords.size() < starCount) {
-			int x = random.nextInt(maxCoord) - offset;
-			int y = random.nextInt(maxCoord) - offset;
-			int maxZ = (int) Math.floor(maxCoord / Math.sqrt(distanceFromOrigo(x, y)));
-			int zOffset = maxZ / 2;
-			int z = random.nextInt(maxZ) - zOffset;
-			Coordinates coordinates = new Coordinates(x, y, z);
+			int maxDistance = getMapRadius(starCount);
+			int distance = randomDistance(maxDistance, random);
+			float longitude = randomLongitude(random);
+			Coordinates coordinates = randomCoordinates(distance, maxDistance, longitude, random);
 			DistanceMarginCoordinatesKey key = new DistanceMarginCoordinatesKey(coordinates);
 			if (!generatedCoords.containsKey(key)) {
 				generatedCoords.put(key, coordinates);
@@ -51,8 +49,29 @@ public class RandomCoordinateGenerator implements CoordinateGenerator {
 		return new ArrayList<Coordinates>(generatedCoords.values());
 	}
 	
-	double distanceFromOrigo(int x, int y) {
-		return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+	public int getMapRadius(int starCount) {
+		return MAP_SIZE_FACTOR * starCount;
+	}
+	
+	int randomDistance(int maxDistance, Random random) {
+		int distance = (int) Math.round(maxDistance * Math.pow(random.nextFloat(), DISTANCE_WEIGHTING_FACTOR));
+		return distance;
+	}
+	
+	float randomLongitude(Random random) {
+		return random.nextFloat() * 360;
+	}
+	
+	Coordinates randomCoordinates(int distance, int maxDistance, float longitude, Random random) {
+		int maxZ = 10 + (int) Math.round(
+				maxDistance * Math.sqrt(((distance > 10 ? distance : 10) / (double) maxDistance)));
+		int zOffset = maxZ / 2;
+		int z = random.nextInt(maxZ) - zOffset;
+		double radianLongitude = Math.toRadians(longitude);
+		double radianLatitude = (distance > 0 ? Math.asin(z / distance) : 0);
+		long x = converter.calculateX(distance, radianLatitude, radianLongitude);
+		long y = converter.calculateY(distance, radianLatitude, radianLongitude);
+		return new Coordinates((int) x, (int) y, (int) z);
 	}
 
 }

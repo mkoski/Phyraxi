@@ -8,6 +8,7 @@ import fourx.domain.Coordinates;
 import fourx.utils.GalacticCoordinatesConverter.GalacticCoordinates;
 
 /**
+ * Tests for {@link GalacticCoordinatesConverter}.
  * 
  * @author Jani Kaarela
  */

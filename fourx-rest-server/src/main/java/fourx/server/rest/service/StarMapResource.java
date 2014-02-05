@@ -29,7 +29,8 @@ import fourx.server.rest.data.StarMap.StarInfo;
 public class StarMapResource {
 
 	private static final int RANDOM_MAP_DEFAULT_SIZE = 30;
-	private static final int RANDOM_MAP_MAX_SIZE = 500;
+	private static final int RANDOM_MAP_MAX_SIZE = 1000;
+	private static final int NEAR_SPACE_RADIUS = 1250;
 	private static final List<StarInfo> NEAR_SPACE = Arrays.asList(
 			new StarInfo(new Star(
 					"Sol", SpectralType.G, 2, LuminosityClass.MAIN_SEQUENCE, 1.0, 1.0, 5777),
@@ -71,7 +72,7 @@ public class StarMapResource {
 
 	@GET @Path("/near-space")
 	public StarMap nearSpaceStarMap() {
-		return new StarMap(NEAR_SPACE);
+		return new StarMap(NEAR_SPACE_RADIUS, NEAR_SPACE);
 	}
 	
 	@GET @Path("/random")
@@ -87,13 +88,15 @@ public class StarMapResource {
 		List<StarInfo> stars = new ArrayList<>(size);
 		RandomCoordinateGenerator coordinateGenerator = new RandomCoordinateGenerator();
 		List<Coordinates> coordinateList = coordinateGenerator.generateStarSystemCoordinates(size);
+		int radius = coordinateGenerator.getMapRadius(size);
 		StatisticalStarGenerator starGenerator = new StatisticalStarGenerator();
 		for (Coordinates coordinates : coordinateList) {
 			Star star = starGenerator.generateStar(Star.Generation.POPULATION_I); // couldn't care less
 			StarInfo starInfo = new StarInfo(star, coordinates);
 			stars.add(starInfo);
 		}
-		return new StarMap(stars);
+		
+		return new StarMap(radius, stars);
 	}
 
 }

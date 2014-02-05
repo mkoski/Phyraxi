@@ -34,15 +34,5 @@ public class RandomCoordinateGeneratorTest {
 			System.out.println(coords);
 		}
 	}
-	
-	@Test
-	public void shouldDetermineCorrectDistanceFromOrigo() {
-		int x = 4;
-		int y = 4;
-		RandomCoordinateGenerator generator = new RandomCoordinateGenerator();
-		double distance = generator.distanceFromOrigo(x, y);
-		double expected = 5.65685;
-		assertEquals(expected, distance, 0.0001);
-	}
 
 }

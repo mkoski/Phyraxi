@@ -26,12 +26,26 @@ public class GalacticCoordinatesConverter {
 		}
 		double radLongitude = Math.toRadians(longitude);
 		double radLatitude = Math.toRadians(latitude);
-		// X and Y formulae are switched, since they assume longitude is measured from X axis.
-		long x = Math.round(distance * Math.cos(radLatitude) * Math.sin(radLongitude));
-		long y = Math.round(distance * Math.cos(radLatitude) * Math.cos(radLongitude));;
-		long z = Math.round(distance * Math.sin(radLatitude));
+		
+		long x = calculateX(distance, radLatitude, radLongitude);
+		long y = calculateY(distance, radLatitude, radLongitude);
+		long z = calculateZ(distance, radLatitude);
 		// no single coordinate can be greater than distance, so casts are safe 
 		return new Coordinates((int) x, (int) y, (int) z);
+	}
+	
+	public long calculateX(int distance, double radianLatitude, double radianLongitude) {
+		// X and Y formulae are switched, since they assume longitude is measured from X axis.
+		return Math.round(distance * Math.cos(radianLatitude) * Math.sin(radianLongitude));
+	}
+	
+	public long calculateY(int distance, double radianLatitude, double radianLongitude) {
+		// X and Y formulae are switched, since they assume longitude is measured from X axis.
+		return Math.round(distance * Math.cos(radianLatitude) * Math.cos(radianLongitude));
+	}
+	
+	public long calculateZ(int distance, double radianLatitude) {
+		return Math.round(distance * Math.sin(radianLatitude));
 	}
 	
 	/**
