@@ -75,7 +75,7 @@
 						function createBackground(radius, segments) {
 							return new THREE.Mesh(new THREE.SphereGeometry(radius, segments,
 									segments), new THREE.MeshBasicMaterial({
-								map : THREE.ImageUtils.loadTexture('img/galaxy_starfield.png'),
+								map : THREE.ImageUtils.loadTexture('img/'+background),
 								side : THREE.BackSide
 							}));
 						}
