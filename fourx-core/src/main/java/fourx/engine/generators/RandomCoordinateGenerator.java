@@ -19,8 +19,9 @@ import fourx.utils.GalacticCoordinatesConverter;
 public class RandomCoordinateGenerator implements CoordinateGenerator {
 	
 	private static final int MAX_STAR_COUNT = 1000;
-	private static final int MAP_SIZE_FACTOR = 300;
+	private static final int MAP_SIZE_FACTOR = 250;
 	private static final int DISTANCE_WEIGHTING_FACTOR = 3;
+	private static final int Z_FLATTENING_FACTOR = 3;
 	
 	private GalacticCoordinatesConverter converter = new GalacticCoordinatesConverter();
 
@@ -63,10 +64,9 @@ public class RandomCoordinateGenerator implements CoordinateGenerator {
 	}
 	
 	Coordinates randomCoordinates(int distance, int maxDistance, float longitude, Random random) {
-		int maxZ = 10 + (int) Math.round(
-				maxDistance * Math.sqrt(((distance > 10 ? distance : 10) / (double) maxDistance)));
+		int maxZ = (maxDistance - distance) / Z_FLATTENING_FACTOR;
 		int zOffset = maxZ / 2;
-		int z = random.nextInt(maxZ) - zOffset;
+		int z = (int) Math.round(Math.pow(random.nextFloat(), DISTANCE_WEIGHTING_FACTOR) * maxZ) - zOffset;
 		double radianLongitude = Math.toRadians(longitude);
 		double radianLatitude = (distance > 0 ? Math.asin(z / distance) : 0);
 		long x = converter.calculateX(distance, radianLatitude, radianLongitude);
