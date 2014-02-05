@@ -1,4 +1,11 @@
+// Star radius
+var radius_star = 10;
+// Initial camera position
+var camera_position = 200;
+// Starmap JSON url
 var starmap_url = "http://localhost:8080/resources/starmap/random/30";
+
+// RGB colors for star types
 var spectral_types = {
         O : 0x0000ff, // blue
         B : 0x00ffff, // blue-white
@@ -9,6 +16,7 @@ var spectral_types = {
         M : 0xff0000 //red
       };
 
+// Colored star textures
 var spectral_types_jpg = {
         O : "star_blue.jpg", // blue
         B : "star_blue-white.jpg", // blue-white
@@ -19,6 +27,7 @@ var spectral_types_jpg = {
         M : "star_red.jpg" //red
       };
 
+// 2D images for simple stars
 var spectral_types_png = {
     O : "particle_blue.png", // blue
     B : "particle_blue-white.png", // blue-white

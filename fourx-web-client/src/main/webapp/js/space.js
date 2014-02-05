@@ -2,17 +2,17 @@
 	$.getJSON(
 					starmap_url,
 					function(json) {
-						var starmap = json;		
-						var container = document.getElementById('map_container');
-						var WIDTH = window.innerWidth, HEIGHT = window.innerHeight;
-						var radius = 1, segments = 32, rings = 6;
-						var scene = new THREE.Scene();
+						var starmap = json;
+						var WIDTH = window.innerWidth, HEIGHT = window.innerHeight;	
 						var VIEW_ANGLE = 45, ASPECT = WIDTH / HEIGHT, NEAR = 0.1, FAR = 20000;
 						var camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR,
 								FAR);
-						camera.position.z = 200;
+						var radius = radius_star, segments = 32, rings = 6;
+						var container = document.getElementById('map_container');								
+						var scene = new THREE.Scene();								
 						var renderer = new THREE.WebGLRenderer();
 						var particles = new THREE.Geometry();
+						camera.position.z = camera_position;
 						renderer.setSize(WIDTH, HEIGHT);
 						
 						for ( var i in starmap.stars) {
@@ -51,7 +51,6 @@
 	
 	
 						}
-
 						
 						var ambientLight = new THREE.AmbientLight(0xffffff);
 						scene.add(ambientLight);
