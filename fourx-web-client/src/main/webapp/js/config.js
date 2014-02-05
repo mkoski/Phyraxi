@@ -1,9 +1,10 @@
 // Star radius
 var radius_star = 10;
+var radius_halo = 10;
 // Initial camera position
 var camera_position = 200;
 // Starmap JSON url
-var starmap_url = "http://localhost:8080/resources/starmap/random/30";
+var starmap_url = "http://localhost:8080/resources/starmap/near-space";
 
 // RGB colors for star types
 var spectral_types = {

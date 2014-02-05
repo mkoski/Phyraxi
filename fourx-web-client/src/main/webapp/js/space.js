@@ -24,26 +24,30 @@
 							containerStar.position.y	= y;
 							containerStar.position.z	= z;
 							scene.add(containerStar);
-												
-							var material	= THREEx.createAtmosphereMaterial()
+
+							
+							var material	= THREEx.createAtmosphereMaterial();
 							material.side	= THREE.FrontSide;
 							material.uniforms.glowColor.value.set(spectral_types[starmap.stars[i]['type'].charAt(0)]);
-							material.uniforms.coeficient.value	= 0.05;
-							material.uniforms.power.value		= 6.0;
+							material.uniforms.coeficient.value	= 0.35;
+							material.uniforms.power.value		= 3.5;
 							
 							var sphereMaterial = new THREE.MeshLambertMaterial({
-								color : spectral_types[starmap.stars[i]['type'].charAt(0)]
+								color : '#ffffff'
+								/*color : spectral_types[starmap.stars[i]['type'].charAt(0)]*/
 							});
+							
 							var sphere = new THREE.Mesh(new THREE.SphereGeometry(radius,
 									segments, segments), material);
-							sphere.scale.multiplyScalar(2.5);
+							sphere.scale.multiplyScalar(radius_halo);
 							sphere.position.set(x, y, z);
 							
 							var sphereTextured = new THREE.Mesh(new THREE.SphereGeometry(radius,
 									segments, segments),
 									new THREE.MeshBasicMaterial({
-								map : THREE.ImageUtils.loadTexture('img/'
-										+ spectral_types_jpg[starmap.stars[i]['type'].charAt(0)]),
+								map : THREE.ImageUtils.loadTexture(
+										'img/star_white.jpg')
+										/*'img/'+ spectral_types_jpg[starmap.stars[i]['type'].charAt(0)])*/
 							}));
 							sphereTextured.position.set(x, y, z);
 							containerStar.add(sphereTextured);
