@@ -52,7 +52,7 @@
 							sphereTextured.position.set(x, y, z);
 							containerStar.add(sphereTextured);
 							containerStar.add(sphere);
-	
+							
 	
 						}
 						
@@ -60,6 +60,8 @@
 						scene.add(ambientLight);
 						// Background, controls, render
 						var backgroundStars = createBackground(10000, 64);
+						
+						
 						scene.add(backgroundStars);
 						var controls = new THREE.TrackballControls(camera);
 						//var controls = new THREE.OrbitControls(camera,renderer.domElement);
@@ -67,6 +69,9 @@
 						render();
 						
 						function render() {
+							backgroundStars.rotation.x += 0.0001;
+							backgroundStars.rotation.y += 0.0001;
+							backgroundStars.rotation.z -= 0.0001;
 							requestAnimationFrame(render);
 							renderer.render(scene, camera);
 							controls.update();
