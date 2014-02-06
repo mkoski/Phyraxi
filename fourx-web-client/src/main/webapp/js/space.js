@@ -4,7 +4,7 @@
 					function(json) {
 						var starmap = json;
 						var WIDTH = window.innerWidth, HEIGHT = window.innerHeight;	
-						var VIEW_ANGLE = 45, ASPECT = WIDTH / HEIGHT, NEAR = 0.1, FAR = 20000;
+						var VIEW_ANGLE = 45, ASPECT = WIDTH / HEIGHT, NEAR = 0.1, FAR = 50000;
 						var camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR,
 								FAR);
 						var radius = radius_star, segments = 32, rings = 6;
@@ -16,9 +16,9 @@
 						renderer.setSize(WIDTH, HEIGHT);
 						
 						for ( var i in starmap.stars) {
-							var x = starmap.stars[i]['coordinates']['x'];
-							var y = starmap.stars[i]['coordinates']['y'];
-							var z = starmap.stars[i]['coordinates']['z'];											
+							var x = starmap.stars[i]['coordinates']['x'] * map_scaling;
+							var y = starmap.stars[i]['coordinates']['y'] * map_scaling;
+							var z = starmap.stars[i]['coordinates']['z'] * map_scaling;											
 							var containerStar = new THREE.Object3D();
 							containerStar.position.x	= x;
 							containerStar.position.y	= y;
@@ -59,7 +59,7 @@
 						var ambientLight = new THREE.AmbientLight(0xffffff);
 						scene.add(ambientLight);
 						// Background, controls, render
-						var backgroundStars = createBackground(10000, 64);
+						var backgroundStars = createBackground(20000, 64);
 						
 						
 						scene.add(backgroundStars);

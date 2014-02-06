@@ -6,11 +6,13 @@
 var radius_star = 15;
 var radius_halo = 10;
 
+// Scaling coefficient
+var map_scaling = 0.1;
 // Initial camera position
-var camera_position = 200;
+var camera_position = 20000;
 
 // Starmap options
-var starmap_url = "http://localhost:8080/resources/starmap/random/30";
+var starmap_url = "http://localhost:8080/resources/starmap/random/50";
 // var background = "galaxy_starfield_darker.png";
 var background = "mw4000_darker.png";
 
