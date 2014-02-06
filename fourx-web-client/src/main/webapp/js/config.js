@@ -19,7 +19,7 @@ var background = "mw4000_darker.png";
 // RGB colors for star types
 var spectral_types = {
         O : 0x0000ff, // blue
-        B : 0x00ffff, // blue-white
+        B : 0x6495ed, // blue-white
         A : 0xffffff, // white
         F : 0xffff99, // yellow-white
         G : 0xffff00, // yellow
