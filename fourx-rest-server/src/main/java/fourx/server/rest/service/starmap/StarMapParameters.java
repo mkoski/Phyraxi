@@ -1,4 +1,4 @@
-package fourx.server.rest.service;
+package fourx.server.rest.service.starmap;
 
 public class StarMapParameters {
 	public int size;

@@ -1,4 +1,4 @@
-package fourx.server.rest.service;
+package fourx.server.rest.service.starmap;
 
 import java.util.ArrayList;
 import java.util.Arrays;
