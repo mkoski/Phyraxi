@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import fourx.command.GameSettings;
 import fourx.domain.Coordinates;
 
 /**
@@ -18,17 +17,15 @@ public class RandomCoordinateGeneratorTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void shouldThrowIllegalArgumentExceptionOnGalaxySizeLessThanOne() {
-		GameSettings gameSettings = new GameSettings.Builder().setGalaxySize(0).build();
 		CoordinateGenerator generator = new RandomCoordinateGenerator();
-		generator.generateStarSystemCoordinates(gameSettings);
+		generator.generateStarSystemCoordinates(0);
 	}
 
 	@Test
 	public void shouldGenerateCorrectNumberOfCoordinates() {
 		int galaxySize = 10;
-		GameSettings gameSettings = new GameSettings.Builder().setGalaxySize(galaxySize).build();
 		CoordinateGenerator generator = new RandomCoordinateGenerator();
-		List<Coordinates> coordinates = generator.generateStarSystemCoordinates(gameSettings);
+		List<Coordinates> coordinates = generator.generateStarSystemCoordinates(galaxySize);
 		assertEquals(galaxySize, coordinates.size());
 		for (Coordinates coords : coordinates) {
 			System.out.println(coords);

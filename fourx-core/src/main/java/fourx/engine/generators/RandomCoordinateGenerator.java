@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import fourx.command.GameSettings;
 import fourx.domain.Coordinates;
 import fourx.domain.DistanceMarginCoordinatesKey;
 import fourx.utils.GalacticCoordinatesConverter;
@@ -24,13 +23,8 @@ public class RandomCoordinateGenerator implements CoordinateGenerator {
 	private static final int Z_FLATTENING_FACTOR = 3;
 	
 	private GalacticCoordinatesConverter converter = new GalacticCoordinatesConverter();
-
-	@Override
-	public List<Coordinates> generateStarSystemCoordinates(GameSettings gameSettings) {
-		int starCount = gameSettings.getGalaxySize();
-		return generateStarSystemCoordinates(starCount);
-	}
 	
+	@Override
 	public List<Coordinates> generateStarSystemCoordinates(int starCount) {
 		if (starCount < 1 || starCount > MAX_STAR_COUNT) {
 			throw new IllegalArgumentException("Invalid galaxy size: " + starCount);

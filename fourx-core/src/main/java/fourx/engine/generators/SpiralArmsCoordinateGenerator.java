@@ -2,7 +2,6 @@ package fourx.engine.generators;
 
 import java.util.List;
 
-import fourx.command.GameSettings;
 import fourx.domain.Coordinates;
 
 /**
@@ -10,7 +9,7 @@ import fourx.domain.Coordinates;
  */
 public class SpiralArmsCoordinateGenerator implements CoordinateGenerator {
 
-	public List<Coordinates> generateStarSystemCoordinates(GameSettings gameSettings) {
+	public List<Coordinates> generateStarSystemCoordinates(int numberOfStars) {
 		// TODO: implement!
 		// - should create a denser central bulge with more variable Z coords
 		// - each "cluster" should be a spiral arm
@@ -23,6 +22,11 @@ public class SpiralArmsCoordinateGenerator implements CoordinateGenerator {
 		// for bending the spiral:
 		// http://en.wikipedia.org/wiki/Hyperbolic_function
 		return null;
+	}
+
+	public int getMapRadius(int numberOfStars) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }
