@@ -16,11 +16,9 @@ import fourx.domain.Coordinates;
 import fourx.domain.LuminosityClass;
 import fourx.domain.SpectralType;
 import fourx.domain.Star;
-import fourx.engine.generators.ConstellationStarNameGenerator;
 import fourx.engine.generators.CoordinateGenerator;
 import fourx.engine.generators.MainSequenceStarGenerator;
 import fourx.engine.generators.RandomCoordinateGenerator;
-import fourx.engine.generators.RandomStarNameGenerator;
 import fourx.engine.generators.StarNameGenerator;
 import fourx.engine.generators.StatisticalStarGenerator;
 import fourx.server.rest.data.StarMap;
@@ -35,10 +33,10 @@ import fourx.server.rest.data.StarMap.StarInfo;
 @Produces(MediaType.APPLICATION_JSON)
 public class StarMapResource {
 
-	private static final int RANDOM_MAP_DEFAULT_SIZE = 30;
-	private static final int RANDOM_MAP_MAX_SIZE = 1000;
-	private static final int NEAR_SPACE_RADIUS = 1250;
-	private static final List<StarInfo> NEAR_SPACE = Arrays.asList(
+	static final int RANDOM_MAP_DEFAULT_SIZE = 30;
+	static final int RANDOM_MAP_MAX_SIZE = 1000;
+	static final int NEAR_SPACE_RADIUS = 1250;
+	static final List<StarInfo> NEAR_SPACE = Arrays.asList(
 			new StarInfo(new Star(
 					"Sol", SpectralType.G, 2, LuminosityClass.MAIN_SEQUENCE, 1.0, 1.0, 5777),
 					new Coordinates(0, 0, 0)),
@@ -96,39 +94,12 @@ public class StarMapResource {
 	
 	@POST @Path("/random") @Consumes(MediaType.APPLICATION_JSON)
 	public StarMap randomStarMap(StarMapParameters parameters) {
-		CoordinateGenerator coordinateGenerator = getCoordinateGenerator(parameters.coordinateGenerator);
-		StarNameGenerator starNameGenerator = getStarNameGenerator(parameters.nameGenerator);
-		MainSequenceStarGenerator starGenerator = getStarGenerator(parameters.starGenerator, starNameGenerator);
+		StarMapGeneratorFactory factory = new StarMapGeneratorFactory();
+		CoordinateGenerator coordinateGenerator = factory.coordinateGenerator(parameters.coordinateGenerator);
+		StarNameGenerator starNameGenerator = factory.starNameGenerator(parameters.nameGenerator);
+		MainSequenceStarGenerator starGenerator = factory.mainSequenceStarGenerator(parameters.starGenerator);
+		starGenerator.setNameGenerator(starNameGenerator);
 		return generateRandomStarMap(parameters.size, coordinateGenerator, starGenerator);
-	}
-	
-	// below methods for getting generators are screaming for factory classes, enums etc.
-	
-	private CoordinateGenerator getCoordinateGenerator(String key) {
-		if (key == null || "random".equals(key)) {
-			return new RandomCoordinateGenerator();
-		}
-		throw new IllegalArgumentException("Invalid coordinate generator: " + key);
-	}
-	
-	private StarNameGenerator getStarNameGenerator(String key) {
-		StarNameGenerator generator = null;
-		if (key == null || "constellations".equals(key)) {
-			generator = new ConstellationStarNameGenerator();
-		} else if ("random".equals(key)) {
-			generator = new RandomStarNameGenerator();
-		} else {
-			throw new IllegalArgumentException("Invalid star name generator: " + key);
-		}
-		return generator;
-	}
-	
-	private MainSequenceStarGenerator getStarGenerator(String key, StarNameGenerator starNameGenerator) {
-		if (key == null || "statistical".equals(key)) {
-			return new StatisticalStarGenerator(starNameGenerator);
-		} else {
-			throw new IllegalArgumentException("Invalid star generator: " + key);
-		}
 	}
 	
 	private StarMap generateRandomStarMap(int size, CoordinateGenerator coordinateGenerator,

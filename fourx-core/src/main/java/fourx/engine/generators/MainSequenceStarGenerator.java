@@ -17,5 +17,12 @@ public interface MainSequenceStarGenerator {
 	 * @return	a generated star. 
 	 */
 	Star generateStar(Star.Generation generation);
+	
+	/**
+	 * Sets the generator for star names.
+	 * 
+	 * @param starNameGenerator	star name generator.
+	 */
+	void setNameGenerator(StarNameGenerator starNameGenerator);
 
 }

@@ -27,18 +27,14 @@ public class StatisticalStarGenerator implements MainSequenceStarGenerator {
 	private static final int M_CLASS_PERCENTAGE = 40 + K_CLASS_PERCENTAGE;
 	
 	private StarPropertiesCalculator calculator = new StarPropertiesCalculator();
-	private StarNameGenerator starNameGenerator;
-
-	public StatisticalStarGenerator() {
-		this(new ConstellationStarNameGenerator());
-	}
-	
-	public StatisticalStarGenerator(StarNameGenerator starNameGenerator) {
-		this.starNameGenerator = starNameGenerator;
-	}
+	private StarNameGenerator nameGenerator = new ConstellationStarNameGenerator(); 
 	
 	public Star generateStar(Generation generation) {
 		return generateMainSequenceStar(generation);
+	}
+	
+	public void setNameGenerator(StarNameGenerator starNameGenerator) {
+		this.nameGenerator = starNameGenerator;
 	}
 	
 	protected Star generateMainSequenceStar(Generation generation) {
@@ -100,7 +96,7 @@ public class StatisticalStarGenerator implements MainSequenceStarGenerator {
 	}
 	
 	protected String generateName() {
-		return starNameGenerator.generateName();
+		return nameGenerator.generateName();
 	}
 
 }
