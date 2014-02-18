@@ -1,10 +1,15 @@
 package fourx.engine.generators;
 
 import java.util.Random;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
+ * Random star name generator. Keeps track of generated names to avoid producing
+ * duplicates. Generating an insane number of names potentially leads to an
+ * indefinite loop, but in practice this should not be a problem.
+ * 
  * @author Jani Kaarela (@gmail.com)
- *
  */
 public class RandomStarNameGenerator implements StarNameGenerator {
 	
@@ -34,9 +39,19 @@ public class RandomStarNameGenerator implements StarNameGenerator {
 		"tch", "th", "tz", "vz", "xx", "zh", "zz"
 	};
 	
+	private final SortedSet<String> generatedNames = new TreeSet<>();
 	private final Random random = new Random();
 	
 	public String generateName() {
+		String name = generateCandidateName();
+		while (generatedNames.contains(name)) {
+			name = generateCandidateName();
+		}
+		generatedNames.add(name);
+		return name;
+	}
+	
+	private String generateCandidateName() {
 		StringBuilder sb = new StringBuilder();
 		if (random.nextFloat() < 0.35) {
 			sb.append(generateWord());
