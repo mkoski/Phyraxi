@@ -1,14 +1,14 @@
-FourX
+Phyraxi
 =====
 
 Modules
 -------
 
-* fourx-core: shared classes (domain objects and such)
+* phyraxi-core: shared classes (domain objects and such)
  * possibly will have "engine" or some similar server-only part ripped out? 
-* foux-rest-server: a REST server
+* phyraxi-rest-server: a REST server
  * generates a standalone runnable JAR
-* fourx-web-client: static (HTML, JS) web client
+* phyraxi-web-client: static (HTML, JS) web client
  * generates a WAR including the REST server, and a tar.gz package of static content for separate deployment
 
 Building
@@ -19,6 +19,6 @@ A complete build can be done by building in the top-level directory. Run "mvn pa
 Running
 -------
 
-* the REST server can be run in standalone-mode; "mvn package && java -jar target/fourx-rest-server-&lt;version&gt;-jar-with-dependencies.jar"
+* the REST server can be run in standalone-mode; "mvn package && java -jar target/phyraxi-rest-server-&lt;version&gt;-jar-with-dependencies.jar"
 * web client project can be run as a webapp containing the server: "mvn jetty:run"
  * if the above doesn't work, try with the groupId: "mvn org.eclipse.jetty:jetty:run" (or configure plugin groups)
