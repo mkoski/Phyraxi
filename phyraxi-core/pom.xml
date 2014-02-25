@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>fourx</groupId>
-    <artifactId>fourx</artifactId>
+    <groupId>phyraxi</groupId>
+    <artifactId>phyraxi</artifactId>
     <version>0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>fourx-core</artifactId>
+  <artifactId>phyraxi-core</artifactId>
   <packaging>jar</packaging>
 
   <dependencies>

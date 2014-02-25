@@ -3,17 +3,17 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>fourx</groupId>
-    <artifactId>fourx</artifactId>
+    <groupId>phyraxi</groupId>
+    <artifactId>phyraxi</artifactId>
     <version>0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>fourx-rest-server</artifactId>
+  <artifactId>phyraxi-rest-server</artifactId>
   <packaging>jar</packaging>
 
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>fourx-core</artifactId>
+      <artifactId>phyraxi-core</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>
@@ -45,7 +45,7 @@
           </descriptorRefs>
           <archive>
             <manifest>
-              <mainClass>fourx.server.rest.Launcher</mainClass>
+              <mainClass>phyraxi.server.rest.Launcher</mainClass>
             </manifest>
           </archive>
         </configuration>

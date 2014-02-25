@@ -2,18 +2,18 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>fourx</groupId>
-  <artifactId>fourx</artifactId>
+  <groupId>phyraxi</groupId>
+  <artifactId>phyraxi</artifactId>
   <version>0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <modules>
-    <module>fourx-core</module>
-    <module>fourx-rest-server</module>
-    <module>fourx-web-client</module>
+    <module>phyraxi-core</module>
+    <module>phyraxi-rest-server</module>
+    <module>phyraxi-web-client</module>
   </modules>
 
-  <name>fourx</name>
-  <url>https://github.com/mkoski/FourX/</url>
+  <name>phyraxi</name>
+  <url>https://github.com/mkoski/Phyraxi</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

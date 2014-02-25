@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>fourx</groupId>
-    <artifactId>fourx</artifactId>
+    <groupId>phyraxi</groupId>
+    <artifactId>phyraxi</artifactId>
     <version>0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>fourx-web-client</artifactId>
+  <artifactId>phyraxi-web-client</artifactId>
   <packaging>war</packaging>
 
   <properties>
@@ -17,7 +17,7 @@
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>fourx-rest-server</artifactId>
+      <artifactId>phyraxi-rest-server</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>
