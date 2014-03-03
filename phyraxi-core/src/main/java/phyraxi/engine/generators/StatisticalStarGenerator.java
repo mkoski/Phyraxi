@@ -7,7 +7,7 @@ import java.util.Random;
 import phyraxi.domain.LuminosityClass;
 import phyraxi.domain.SpectralType;
 import phyraxi.domain.Star;
-import phyraxi.domain.Star.Generation;
+import phyraxi.domain.StarPopulation;
 
 
 /**
@@ -30,32 +30,33 @@ public class StatisticalStarGenerator implements MainSequenceStarGenerator {
 	private StarPropertiesCalculator calculator = new StarPropertiesCalculator();
 	private StarNameGenerator nameGenerator = new ConstellationStarNameGenerator(); 
 	
-	public Star generateStar(Generation generation) {
-		return generateMainSequenceStar(generation);
+	public Star generateStar(StarPopulation population) {
+		return generateMainSequenceStar(population);
 	}
 	
 	public void setNameGenerator(StarNameGenerator starNameGenerator) {
 		this.nameGenerator = starNameGenerator;
 	}
 	
-	protected Star generateMainSequenceStar(Generation generation) {
-		LuminosityClass luminosityClass = determineLuminosityClass(generation);
-		SpectralType spectralType = determineSpectralType(generation, luminosityClass);
-		double mass = determineMass(generation, luminosityClass, spectralType);
+	protected Star generateMainSequenceStar(StarPopulation population) {
+		LuminosityClass luminosityClass = determineLuminosityClass(population);
+		SpectralType spectralType = determineSpectralType(population, luminosityClass);
+		double mass = determineMass(population, luminosityClass, spectralType);
 		int effectiveTemperature = determineEffectiveTemperature(spectralType);
 		int spectralNumber = determineSpectralNumber(spectralType, effectiveTemperature);
 		double brightness = BigDecimal.valueOf(calculator.calculateBrightness(mass))
 				.setScale(3, RoundingMode.HALF_UP).doubleValue();
 		
 		String name = generateName();
-		return new Star(name, spectralType, spectralNumber, luminosityClass, mass, brightness, effectiveTemperature);
+		return new Star(name, population, spectralType, spectralNumber, luminosityClass, mass, brightness,
+				effectiveTemperature);
 	}
 
-	protected LuminosityClass determineLuminosityClass(Generation generation) {
+	protected LuminosityClass determineLuminosityClass(StarPopulation generation) {
 		return LuminosityClass.MAIN_SEQUENCE;
 	}
 	
-	protected SpectralType determineSpectralType(Generation generation, LuminosityClass luminosityClass) {
+	protected SpectralType determineSpectralType(StarPopulation generation, LuminosityClass luminosityClass) {
 		SpectralType spectralType = null;
 		int randomInt = new Random().nextInt(100) + 1;
 		if (randomInt <= O_CLASS_PERCENTAGE) {
@@ -78,7 +79,7 @@ public class StatisticalStarGenerator implements MainSequenceStarGenerator {
 		return spectralType;
 	}
 	
-	protected double determineMass(Generation generation, LuminosityClass luminosityClass, SpectralType spectralType) {
+	protected double determineMass(StarPopulation generation, LuminosityClass luminosityClass, SpectralType spectralType) {
 		double random = Math.random();
 		double result = spectralType.getMinMass() + ((spectralType.getMaxMass() - spectralType.getMinMass()) * random);
 		return BigDecimal.valueOf(result).setScale(3, RoundingMode.HALF_UP).doubleValue();

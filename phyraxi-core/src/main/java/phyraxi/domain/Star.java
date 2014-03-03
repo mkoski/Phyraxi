@@ -7,15 +7,8 @@ package phyraxi.domain;
  */
 public class Star {
 	
-	public enum Generation {
-		/** Young population; metal-rich, likely to have planets. */
-		POPULATION_I,
-		/** Old population; metal-poor, unlikely to have planets. */
-		POPULATION_II;
-		/* A speculative Population III is the ancient, metal-free generation, now extint. */
-	}
-
 	private final String name;
+	private final StarPopulation population;
 	private final SpectralType spectralType;
 	private final int spectralNumber;
 	private final LuminosityClass luminosityClass;
@@ -23,9 +16,10 @@ public class Star {
 	private final double brightness;
 	private final int effectiveTemperature;
 
-	public Star(String name, SpectralType spectralType, int spectralNumber, LuminosityClass luminosityClass,
-			double mass, double brightness, int effectiveTemperature) {
+	public Star(String name, StarPopulation population, SpectralType spectralType, int spectralNumber,
+			LuminosityClass luminosityClass, double mass, double brightness, int effectiveTemperature) {
 		this.name = name;
+		this.population = population;
 		this.spectralType = spectralType;
 		this.spectralNumber = spectralNumber;
 		this.luminosityClass = luminosityClass;
@@ -43,6 +37,15 @@ public class Star {
 		return name;
 	}
 
+	/**
+	 * Gets the star population.
+	 * 
+	 * @return	star population.
+	 */
+	public StarPopulation getPopulation() {
+		return population;
+	}
+	
 	/**
 	 * Gets the spectral type of the star. Spectral type is closely related to
 	 * the surface temperature and color of the star.

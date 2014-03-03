@@ -1,6 +1,7 @@
 package phyraxi.engine.generators;
 
 import phyraxi.domain.Star;
+import phyraxi.domain.StarPopulation;
 
 /**
  * A generator for generating a main-sequence star population.
@@ -16,7 +17,7 @@ public interface MainSequenceStarGenerator {
 	 * 
 	 * @return	a generated star. 
 	 */
-	Star generateStar(Star.Generation generation);
+	Star generateStar(StarPopulation generation);
 	
 	/**
 	 * Sets the generator for star names.
