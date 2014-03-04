@@ -74,6 +74,8 @@ public class PlanetPropertiesCalculator {
 		return 1.44 * (Math.pow((planetDensity / satelliteDensity), (1/3)));
 	}
 	
+	// TODO: method for determining tidal locking, see http://en.wikipedia.org/wiki/Tidal_locking
+	
 	/*
 	 * Resources:
 	 * - http://en.wikipedia.org/wiki/Planetary_equilibrium_temperature
