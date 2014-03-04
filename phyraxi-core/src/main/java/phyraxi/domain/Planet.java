@@ -4,20 +4,9 @@ package phyraxi.domain;
  * 
  * @author Jani Kaarela (@gmail.com)
  */
-public class Planet {
+public class Planet extends Satellite {
 	
-	public enum Type {
-		ASTEROID_BELT,
-		PLANETOID,
-		TERRESTRIAL,
-		ICE_GIANT,
-		CTHONIAN,
-		JOVIAN;
-	}
-	
-	private String name;
-	private Type type;
-	private int distance; // in 1/100 astronomical units
+	private PlanetType type;
 	private int radius; // in 1/100 Earth radiuses
 	private int density; // in 1/100 Earth densities
 	private int gravity; // in 1/100 Earth gravities
@@ -35,21 +24,8 @@ public class Planet {
 		// supress public constructor
 	}
 	
-	public String getName() {
-		return name;
-	}
-	
-	public Type getType() {
+	public PlanetType getType() {
 		return type;
-	}
-
-	/**
-	 * Gets distance from the planet's host star or planet.
-	 * 
-	 * @return	distance, in 1/100 astronomical units.
-	 */
-	public int getDistance() {
-		return distance;
 	}
 
 	/**
@@ -88,23 +64,6 @@ public class Planet {
 	public boolean isTidallyLocked() {
 		return tidallyLocked;
 	}
-	
-	/**
-	 * Instantiates a &quot;planet&quot; for an asteroid belt. Of planet properties, density applies
-	 * to asteroid belts, indicating the average density (and thus mineral richness) of asteroids.
-	 * 
-	 * @param name		asteroid belt name.
-	 * @param density	asteroids' average density.
-	 * 
-	 * @return	an planet object representing an asteroid belt. 
-	 */
-	public static Planet createAsteroidBelt(String name, int density) {
-		Planet asteroids = new Planet();
-		asteroids.name = name;
-		asteroids.type = Type.ASTEROID_BELT;
-		asteroids.density = density;
-		return asteroids;
-	}
 
 	public static class Builder {
 		
@@ -119,7 +78,7 @@ public class Planet {
 			return this;
 		}
 		
-		public Builder setType(Type type) {
+		public Builder setType(PlanetType type) {
 			planet.type = type;
 			return this;
 		}

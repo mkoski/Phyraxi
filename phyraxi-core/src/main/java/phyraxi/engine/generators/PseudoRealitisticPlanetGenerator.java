@@ -26,13 +26,13 @@ public class PseudoRealitisticPlanetGenerator implements PlanetGenerator {
 		List<Planet> planets = new ArrayList<>();
 		for (int i = 0; i < planetCount; i++) {
 			int orbitalDistance = determineOrbitDistance(star, previousOrbit);
-			planets.add(generatePlanet(star, orbitalDistance));
+			planets.add(generatePlanet(star, modifiers, orbitalDistance));
 		}
 		return planets;
 	}
 	
-	int determinePlanetCount(int planetModifier) {
-		int randomCount = random.nextInt(4) + Math.round((float) Math.pow(random.nextFloat(), 2) * planetModifier);
+	int determinePlanetCount(int countModifier) {
+		int randomCount = random.nextInt(4) + Math.round((float) Math.pow(random.nextFloat(), 2) * countModifier);
 		return Math.max(0, randomCount);
 	}
 	
@@ -56,7 +56,8 @@ public class PseudoRealitisticPlanetGenerator implements PlanetGenerator {
 				((float) Math.pow(random.nextFloat(), 2) + 0.4f) * previousOrbit);
 	}
 	
-	Planet generatePlanet(Star star, int orbitalDistance) {
+	Planet generatePlanet(Star star, PlanetarySystemModifiers modifiers, int orbitalDistance) {
+		
 		return null; // TODO implement planet generation, favor planetoids and asteroids for young stars and OBA stars
 	}
 	
