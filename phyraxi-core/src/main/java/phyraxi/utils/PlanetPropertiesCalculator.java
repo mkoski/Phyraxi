@@ -12,6 +12,11 @@ public class PlanetPropertiesCalculator {
 	static final double SUN_LUMINOSITY_IN_WATTS = 3.846e26;
 	private static final double STEFAN_BOLTZMANN_CONSTANT = 5.670373e-8;
 	private static final double ASTRONOMICAL_UNIT_IN_METERS = 1.496e11;
+	private static final double APPROXIMATE_PLANET_RIGIDITY = 2e10;
+	private static final double EART_RADIUS_IN_METERS = 6371000;
+	private static final double EARTH_MASS_IN_KILOGRAMS = 5.97219e24;
+	private static final double SUN_MASS_IN_KILOGRAMS = 1.9891e30;
+	private static final double CELESTIAL_TIME_SCALE = 0.2e10; // 2 billion years
 	
 	/**
 	 * Calculate planetary equilibrium temperate.
@@ -35,14 +40,14 @@ public class PlanetPropertiesCalculator {
 	double calculateFluxDensity(Star star, int distance) {
 		return (
 				convertSolarLuminositiesToWatts(star.getBrightness()) // radiation
-				/ (4 * Math.PI * Math.pow(convertToMeters(distance), 2))); // spherical area at distance
+				/ (4 * Math.PI * Math.pow(convertAstronomicalUnitsToMeters(distance), 2))); // spherical area at distance
 	}
 	
 	double convertSolarLuminositiesToWatts(double luminosity) {
 		return luminosity * SUN_LUMINOSITY_IN_WATTS;
 	}
 	
-	double convertToMeters(int distance) {
+	double convertAstronomicalUnitsToMeters(int distance) {
 		return ASTRONOMICAL_UNIT_IN_METERS * (distance / 100d);
 	}
 	
@@ -58,7 +63,7 @@ public class PlanetPropertiesCalculator {
 	 * @return
 	 */
 	public double calculateHillSphereRadius(int distance, double starMass, double planetMass) {
-		return convertToMeters(distance) * (Math.pow((planetMass / starMass), (1/3)));
+		return convertAstronomicalUnitsToMeters(distance) * (Math.pow((planetMass / starMass), (1/3)));
 	}
 	
 	/**
@@ -75,6 +80,25 @@ public class PlanetPropertiesCalculator {
 	}
 	
 	// TODO: method for determining tidal locking, see http://en.wikipedia.org/wiki/Tidal_locking
+	public boolean isPlanetTidallyLocked(int planetDistance, int planetRadius, int planetMass, double starMass) {
+		return (
+				6 * (Math.pow(convertAstronomicalUnitsToMeters(planetDistance), 6) * convertEarthRadiusesToMeters(planetRadius) *
+				APPROXIMATE_PLANET_RIGIDITY) /
+				convertEarthMassesToKilograms(planetMass) * Math.pow(convertSunMassesToKilograms(starMass), 2)
+				) > CELESTIAL_TIME_SCALE;
+	}
+	
+	private double convertEarthRadiusesToMeters(int earthRadiuses) {
+		return (earthRadiuses * 100) * EART_RADIUS_IN_METERS;
+	}
+	
+	private double convertEarthMassesToKilograms(int earthMasses) {
+		return (earthMasses * 100) * EARTH_MASS_IN_KILOGRAMS;
+	}
+	
+	private double convertSunMassesToKilograms(double sunMasses) {
+		return sunMasses * SUN_MASS_IN_KILOGRAMS;
+	}
 	
 	/*
 	 * Resources:
