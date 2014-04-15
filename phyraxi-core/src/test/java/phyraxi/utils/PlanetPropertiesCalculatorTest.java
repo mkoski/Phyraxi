@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import phyraxi.domain.LuminosityClass;
@@ -32,6 +31,12 @@ public class PlanetPropertiesCalculatorTest {
 	private static final int MOON_MEAN_RADIUS_IN_METERS = 1_737_100;
 	private static final double MOON_MASS_IN_KILOGRAMS = 7.3477e22;
 	private static final double MOON_GRAVITY = 1.6249;
+	private static final double MERCURY_MEAN_ORBITAL_DISTANCE_IN_METERS = 57_909_100_000d;
+	private static final double MERCURY_MEAN_RADIUS_IN_METERS = 2_439_700d;
+	private static final double MERCURY_MASS_IN_KILOGRAMS = 3.3022e23;
+	private static final double VENUS_MEAN_ORBITAL_DISTANCE_IN_METERS = 108_208_000_000d;
+	private static final double VENUS_MEAN_RADIUS_IN_METERS = 6_051_800d;
+	private static final double VENUS_MASS_IN_KILOGRAMS = 4.8676e24;
 	
 	private PlanetPropertiesCalculator planetPropertiesCalculator = new PlanetPropertiesCalculator();
 	
@@ -88,12 +93,25 @@ public class PlanetPropertiesCalculatorTest {
 	}
 	
 	@Test
-	@Ignore("Something fishy here - has to be fixed!")
 	public void earthShouldNotBeConsideredTidallyLockedToSun() {
 		assertFalse(planetPropertiesCalculator.isSatelliteTidallyLocked(
 				planetPropertiesCalculator.convertCentiAstronomicalUnitsToMeters(100),
 				planetPropertiesCalculator.convertCentiEarthRadiusesToMeters(100),
 				EARTH_MASS_IN_KILOGRAMS, SUN_MASS_IN_KILOGRAMS));
+	}
+	
+	@Test
+	public void mercuryShouldBeConsideredTidallyLockedToSun() {
+		assertTrue(planetPropertiesCalculator.isSatelliteTidallyLocked(
+				MERCURY_MEAN_ORBITAL_DISTANCE_IN_METERS, MERCURY_MEAN_RADIUS_IN_METERS,
+				MERCURY_MASS_IN_KILOGRAMS, SUN_MASS_IN_KILOGRAMS));
+	}
+	
+	@Test
+	public void venusShouldBeConsideredTidallyLockedToSun() {
+		assertTrue(planetPropertiesCalculator.isSatelliteTidallyLocked(
+				VENUS_MEAN_ORBITAL_DISTANCE_IN_METERS, VENUS_MEAN_RADIUS_IN_METERS,
+				VENUS_MASS_IN_KILOGRAMS, SUN_MASS_IN_KILOGRAMS));
 	}
 
 }

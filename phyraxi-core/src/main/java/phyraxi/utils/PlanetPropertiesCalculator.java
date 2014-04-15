@@ -1,8 +1,5 @@
 package phyraxi.utils;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-
 import phyraxi.domain.Star;
 
 /**
@@ -19,9 +16,7 @@ public class PlanetPropertiesCalculator {
 	private static final double EARTH_MASS_IN_KILOGRAMS = 5.97219e24;
 	private static final double SUN_MASS_IN_KILOGRAMS = 1.9891e30;
 	private static final double GRAVITATIONAL_CONSTANT = 6.67384e-11;
-	private static final BigDecimal APPROXIMATE_PLANET_RIGIDITY = BigDecimal.valueOf(3e10);
-	private static final BigDecimal TIDAL_LOCKING_FORMULA_TIME_SCALE = BigDecimal.valueOf(1e10);
-	private static final BigDecimal CELESTIAL_TIME_SCALE = BigDecimal.valueOf(2_000_000_000);
+	private static final double PRIMARY_TO_SATELLITE_GRAVITY_RATIO_THRESHOLD = 0.00125d; // arbitrary choice!
 	
 	/**
 	 * Calculate planetary equilibrium temperate.
@@ -103,6 +98,9 @@ public class PlanetPropertiesCalculator {
 	}
 	/**
 	 * Checks if a satellite is (likely to be) tidally locked to it host star/planet (&quot;primary&quot;).
+	 * Notice, that for highly eccentric orbits, locking leads to a spin-orbit resonance other than 1:1;
+	 * this method doesn't take eccentricity into effect and considers such cases tidally locked. Also,
+	 * the implementation is <b>very</b> simplified and unscientific!
 	 * 
 	 * @param satelliteDistanceInMeters	mean orbital distance from the host. 
 	 * @param satelliteRadiusInMeters	mean radius of the satellite.
@@ -112,26 +110,19 @@ public class PlanetPropertiesCalculator {
 	 */
 	public boolean isSatelliteTidallyLocked(double satelliteDistanceInMeters, double satelliteRadiusInMeters,
 			double satelliteMassInKilograms, double primaryMassInKilograms) {
-		BigDecimal satelliteDistance = new BigDecimal(satelliteDistanceInMeters);
-		BigDecimal satelliteMass = new BigDecimal(satelliteMassInKilograms);
-		BigDecimal primaryMass = new BigDecimal(primaryMassInKilograms);
-		BigDecimal approximateTimeToGetTidallyLocked =
-				BigDecimal.valueOf(6).multiply(
-						satelliteDistance.pow(6).multiply(
-								BigDecimal.valueOf(satelliteRadiusInMeters)).multiply(APPROXIMATE_PLANET_RIGIDITY)
-						.divide(
-								satelliteMass.multiply(primaryMass.pow(2)), RoundingMode.HALF_UP
-						)
-				).multiply(TIDAL_LOCKING_FORMULA_TIME_SCALE);
-		return (approximateTimeToGetTidallyLocked.compareTo(CELESTIAL_TIME_SCALE) < 0);
+		double satelliteSurfaceGravity = calculateGravity(satelliteMassInKilograms, satelliteRadiusInMeters);
+		double primaryGravityOnSatelliteSurface = calculateGravity(
+				primaryMassInKilograms, satelliteDistanceInMeters - satelliteRadiusInMeters);
+		double primaryToSatelliteGravityRatio = primaryGravityOnSatelliteSurface / satelliteSurfaceGravity;
+		return (primaryToSatelliteGravityRatio > PRIMARY_TO_SATELLITE_GRAVITY_RATIO_THRESHOLD);
 	}
 	
 	public double convertCentiEarthRadiusesToMeters(int earthRadiuses) {
-		return (earthRadiuses * 100) * EARTH_RADIUS_IN_METERS;
+		return (earthRadiuses / 100) * EARTH_RADIUS_IN_METERS;
 	}
 	
 	public double convertCentiEarthMassesToKilograms(int earthMasses) {
-		return (earthMasses * 100) * EARTH_MASS_IN_KILOGRAMS;
+		return (earthMasses / 100) * EARTH_MASS_IN_KILOGRAMS;
 	}
 	
 	public double convertSunMassesToKilograms(double sunMasses) {
