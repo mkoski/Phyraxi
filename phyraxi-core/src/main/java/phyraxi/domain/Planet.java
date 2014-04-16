@@ -7,6 +7,7 @@ package phyraxi.domain;
 public class Planet extends Satellite {
 	
 	private PlanetType type;
+	private int mass; // in 1/100 Earth masses
 	private int radius; // in 1/100 Earth radiuses
 	private int density; // in 1/100 Earth densities
 	private int gravity; // in 1/100 Earth gravities
@@ -29,27 +30,36 @@ public class Planet extends Satellite {
 	}
 
 	/**
-	 * Gets radius, in Earth radiuses.
+	 * Gets mass, in 1/100 Earth masses.
 	 * 
-	 * @return	planet radius in Earth radiuses.
+	 * @return	planet mass in 1/100 Earth masses.
+	 */
+	public int getMass() {
+		return mass;
+	}
+	
+	/**
+	 * Gets radius, in 1/100 Earth radiuses.
+	 * 
+	 * @return	planet radius in 1/100 Earth radiuses.
 	 */
 	public int getRadius() {
 		return radius;
 	}
 
 	/**
-	 * Gets density, in Earth densities.
+	 * Gets density, in 1/100 Earth densities.
 	 * 
-	 * @return	planet density in Earth densities.
+	 * @return	planet density in 1/100 Earth densities.
 	 */
 	public int getDensity() {
 		return density;
 	}
 
 	/**
-	 * Gets gravity, in Earth gravities.
+	 * Gets gravity, in 1/100 Earth gravities.
 	 * 
-	 * @return	planet gravity in Earth gravities.
+	 * @return	planet gravity in 1/100 Earth gravities.
 	 */
 	public int getGravity() {
 		return gravity;
@@ -85,6 +95,11 @@ public class Planet extends Satellite {
 		
 		public Builder setDistance(int distance) {
 			planet.distance = distance;
+			return this;
+		}
+		
+		public Builder setMass(int mass) {
+			planet.mass = mass;
 			return this;
 		}
 		

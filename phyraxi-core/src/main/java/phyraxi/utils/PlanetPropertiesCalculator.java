@@ -1,5 +1,8 @@
 package phyraxi.utils;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import phyraxi.domain.Star;
 
 /**
@@ -9,17 +12,14 @@ import phyraxi.domain.Star;
  */
 public class PlanetPropertiesCalculator {
 	
-	static final double SUN_LUMINOSITY_IN_WATTS = 3.846e26;
 	private static final double STEFAN_BOLTZMANN_CONSTANT = 5.670373e-8;
-	private static final double ASTRONOMICAL_UNIT_IN_METERS = 1.496e11;
-	private static final int EARTH_RADIUS_IN_METERS = 6_371_000;
-	private static final double EARTH_MASS_IN_KILOGRAMS = 5.97219e24;
-	private static final double SUN_MASS_IN_KILOGRAMS = 1.9891e30;
-	private static final double GRAVITATIONAL_CONSTANT = 6.67384e-11;
+	private static final BigDecimal GRAVITATIONAL_CONSTANT = new BigDecimal(6.67384e-11);
 	private static final double PRIMARY_TO_SATELLITE_GRAVITY_RATIO_THRESHOLD = 0.00125d; // arbitrary choice!
 	
+	private final StarPropertiesCalculator starCalculator = new StarPropertiesCalculator();
+	
 	/**
-	 * Calculate planetary equilibrium temperate.
+	 * Calculate planetary equilibrium temperature.
 	 * 
 	 * @param star		host star.
 	 * @param distance	distance from star, in 1/100 astronomical units.
@@ -29,27 +29,12 @@ public class PlanetPropertiesCalculator {
 	 */
 	public double calculateEquilibriumTemperature(Star star, int distance, double albedo) {
 		return Math.pow(
-				(calculateAbsorbedFlux(calculateFluxDensity(star, distance), albedo) / STEFAN_BOLTZMANN_CONSTANT),
-				0.25);
+				(calculateAbsorbedFlux(starCalculator.calculateFluxDensity(star, distance), albedo)
+						/ STEFAN_BOLTZMANN_CONSTANT), 0.25);
 	}
 	
 	double calculateAbsorbedFlux(double flux, double albedo) {
 		return (flux / 4) * (1 - albedo);
-	}
-	
-	double calculateFluxDensity(Star star, int distance) {
-		return (
-				convertSolarLuminositiesToWatts(star.getBrightness()) // radiation
-				/ (4 * Math.PI * Math.pow(convertCentiAstronomicalUnitsToMeters(distance), 2))); // spherical area at distance
-	}
-	
-	double convertSolarLuminositiesToWatts(double luminosity) {
-		return luminosity * SUN_LUMINOSITY_IN_WATTS;
-	}
-	
-	// notice distance should be in 1/100 AUs
-	double convertCentiAstronomicalUnitsToMeters(int distance) {
-		return ASTRONOMICAL_UNIT_IN_METERS * (distance / 100d);
 	}
 	
 	/**
@@ -64,7 +49,8 @@ public class PlanetPropertiesCalculator {
 	 * @return
 	 */
 	public double calculateHillSphereRadius(int distance, double starMass, double planetMass) {
-		return convertCentiAstronomicalUnitsToMeters(distance) * (Math.pow((planetMass / starMass), (1/3)));
+		return UnitConversions.centiAstronomicalUnitsToMeters(distance)
+				* (Math.pow((planetMass / starMass), (1 / 3)));
 	}
 	
 	/**
@@ -78,7 +64,7 @@ public class PlanetPropertiesCalculator {
 	 * @return	Roche Limit, as multiples of planet radius.
 	 */
 	public double calculateRocheLimit(double planetDensity, double satelliteDensity) {
-		return 1.44 * (Math.pow((planetDensity / satelliteDensity), (1/3)));
+		return 1.44 * (Math.pow((planetDensity / satelliteDensity), (1 / 3)));
 	}
 	
 	/**
@@ -93,8 +79,10 @@ public class PlanetPropertiesCalculator {
 	 * @return	gravity, either as m/s^2 or relative.
 	 */
 	public double calculateGravity(double mass, double distance) {
-		// g = GM / r^2
-		return (GRAVITATIONAL_CONSTANT * mass) / Math.pow(distance, 2);
+		return GRAVITATIONAL_CONSTANT
+				.multiply(new BigDecimal(mass))
+				.divide(new BigDecimal(Math.pow(distance, 2)), 9, RoundingMode.HALF_UP)
+				.doubleValue();
 	}
 	/**
 	 * Checks if a satellite is (likely to be) tidally locked to it host star/planet (&quot;primary&quot;).
@@ -106,7 +94,8 @@ public class PlanetPropertiesCalculator {
 	 * @param satelliteRadiusInMeters	mean radius of the satellite.
 	 * @param satelliteMassInKilograms	mass of the satellite.
 	 * @param primaryMassInKilograms	mass of the host star/planet.
-	 * @return
+	 * 
+	 * @return	whether satellite is likely to be tidally locked.
 	 */
 	public boolean isSatelliteTidallyLocked(double satelliteDistanceInMeters, double satelliteRadiusInMeters,
 			double satelliteMassInKilograms, double primaryMassInKilograms) {
@@ -115,18 +104,6 @@ public class PlanetPropertiesCalculator {
 				primaryMassInKilograms, satelliteDistanceInMeters - satelliteRadiusInMeters);
 		double primaryToSatelliteGravityRatio = primaryGravityOnSatelliteSurface / satelliteSurfaceGravity;
 		return (primaryToSatelliteGravityRatio > PRIMARY_TO_SATELLITE_GRAVITY_RATIO_THRESHOLD);
-	}
-	
-	public double convertCentiEarthRadiusesToMeters(int earthRadiuses) {
-		return (earthRadiuses / 100) * EARTH_RADIUS_IN_METERS;
-	}
-	
-	public double convertCentiEarthMassesToKilograms(int earthMasses) {
-		return (earthMasses / 100) * EARTH_MASS_IN_KILOGRAMS;
-	}
-	
-	public double convertSunMassesToKilograms(double sunMasses) {
-		return sunMasses * SUN_MASS_IN_KILOGRAMS;
 	}
 	
 	/*

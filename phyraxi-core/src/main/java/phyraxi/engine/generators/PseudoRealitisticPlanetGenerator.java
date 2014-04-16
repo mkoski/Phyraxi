@@ -8,6 +8,7 @@ import phyraxi.domain.Planet;
 import phyraxi.domain.SpectralType;
 import phyraxi.domain.Star;
 import phyraxi.domain.StarPopulation;
+import phyraxi.utils.PlanetPropertiesCalculator;
 
 /**
  * 
@@ -16,17 +17,22 @@ import phyraxi.domain.StarPopulation;
  */
 public class PseudoRealitisticPlanetGenerator implements PlanetGenerator {
 	
+	// TODO: this is a real eye-sore, refactor heavily!!!
+	
+	private static final double TERRESTRIAL_PLANET_MIN_DENSITY = 0.5;
 	private final Random random = new Random();
+	private final PlanetPropertiesCalculator calculator = new PlanetPropertiesCalculator();
 	
 	public List<Planet> generatePlanets(Star star) {
-		PlanetarySystemModifiers modifiers = PlanetarySystemModifiers.getModifiersFor(star);
+		PlanetarySystemParameters modifiers = PlanetarySystemParameters.getModifiersFor(star);
 		int planetCount = determinePlanetCount(modifiers.planetCount);
 		
 		int previousOrbit = 0;
 		List<Planet> planets = new ArrayList<>();
 		for (int i = 0; i < planetCount; i++) {
+			Planet.Builder builder = new Planet.Builder();
 			int orbitalDistance = determineOrbitDistance(star, previousOrbit);
-			planets.add(generatePlanet(star, modifiers, orbitalDistance));
+			planets.add(generatePlanet(star, modifiers, orbitalDistance, builder));
 		}
 		return planets;
 	}
@@ -56,44 +62,55 @@ public class PseudoRealitisticPlanetGenerator implements PlanetGenerator {
 				((float) Math.pow(random.nextFloat(), 2) + 0.4f) * previousOrbit);
 	}
 	
-	Planet generatePlanet(Star star, PlanetarySystemModifiers modifiers, int orbitalDistance) {
-		
-		return null; // TODO implement planet generation, favor planetoids and asteroids for young stars and OBA stars
+	Planet generatePlanet(Star star, PlanetarySystemParameters modifiers, int orbitalDistance, Planet.Builder builder) {
+		int density = 0;
+		int mass = 0;
+		int radius = 0;
+		builder.setDensity(density);
+		builder.setDistance(orbitalDistance);
+		builder.setMass(mass);
+		int gravity = (int) Math.round(calculator.calculateGravity(mass, radius));
+		builder.setGravity(gravity);
+		builder.setName(star.getName() + " " + orbitalDistance); // TODO: roman numeral
+		builder.setRadius(radius);
+		// TODO implement planet generation, favor planetoids and asteroids for young stars and OBA stars
+		return builder.build();
 	}
 	
 	public static void main(String[] args) {
 		PseudoRealitisticPlanetGenerator generator = new PseudoRealitisticPlanetGenerator();
 		StarPopulation population = StarPopulation.DISC_POPULATION_I;
-		SpectralType type = SpectralType.G;
+		SpectralType type = SpectralType.A;
 		Star star = new Star("", population, type, 0, null, 1.0, 0, 0);
-		PlanetarySystemModifiers modifiers = PlanetarySystemModifiers.getModifiersFor(star);
-		/*int total = 0;
+		PlanetarySystemParameters modifiers = PlanetarySystemParameters.getModifiersFor(star);
+		int total = 0;
 		for (int i = 0; i < 50; i++) {
 			int count = generator.determinePlanetCount(modifiers.planetCount);
 			total += count;
 			System.out.println(count);
 		}
-		System.out.println("Average: " + total / 50);*/
-		int planetCount = generator.determinePlanetCount(modifiers.planetCount);
+		System.out.println("Average: " + total / 50);
+		/*int planetCount = generator.determinePlanetCount(modifiers.planetCount);
 		int previousOrbit = 0;
 		for (int i = 0; i < planetCount; i++) {
 			int orbit = generator.determineOrbitDistance(star, previousOrbit);
 			System.out.println(orbit / 100f);
 			previousOrbit = orbit;
-		}
+		}*/
 	}
 	
-	private static class PlanetarySystemModifiers {
+	private static class PlanetarySystemParameters {
 		
+		private int innerZoneBoundary;
 		private int planetCount;
 		private int planetDensity;
 		
-		private PlanetarySystemModifiers(int planetCount, int planetDensity) {
+		private PlanetarySystemParameters(int planetCount, int planetDensity) {
 			this.planetCount = planetCount;
 			this.planetDensity = planetDensity;
 		}
 		
-		static PlanetarySystemModifiers getModifiersFor(Star star) {
+		static PlanetarySystemParameters getModifiersFor(Star star) {
 			int count = 0;
 			int density = 0;
 			switch (star.getPopulation()) {
@@ -102,11 +119,11 @@ public class PseudoRealitisticPlanetGenerator implements PlanetGenerator {
 			case INTERMEDIATE_POPULATION_I:
 				count = -5; density = 5; break;
 			case DISC_POPULATION_I:
-				count = +3; density = 3; break;
+				count = +4; density = 3; break;
 			case DISC_POPULATION_II:
-				count = +1; density = -2; break;
+				count = +3; density = -2; break;
 			case HALO_POPULATION_II:
-				count = -5; density = -5; break;
+				count = -4; density = -5; break;
 			}
 			switch (star.getSpectralType()) {
 			case O:
@@ -120,11 +137,15 @@ public class PseudoRealitisticPlanetGenerator implements PlanetGenerator {
 			case G:
 				count += 5; density += 0; break;
 			case K:
-				count += 7; density += -1; break;
+				count += 6; density += -1; break;
 			case M:
 				count += 3; density += -3; break;
 			}
-			return new PlanetarySystemModifiers(count, density);
+			return new PlanetarySystemParameters(count, density);
+		}
+		
+		static int countInnerZoneBoundary(Star star) {
+			return 0;
 		}
 	}
 
