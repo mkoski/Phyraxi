@@ -8,10 +8,9 @@ import phyraxi.domain.LuminosityClass;
 import phyraxi.domain.SpectralType;
 import phyraxi.domain.Star;
 import phyraxi.domain.StarPopulation;
-import phyraxi.engine.generators.StarPropertiesCalculator;
 import phyraxi.engine.generators.names.ConstellationStarNameGenerator;
 import phyraxi.engine.generators.names.StarNameGenerator;
-
+import phyraxi.utils.StarPropertiesCalculator;
 
 /**
  * A star generator which aims to create &quot;statistically sound&quot; star populations, with a
