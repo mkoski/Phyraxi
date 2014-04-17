@@ -20,8 +20,8 @@ import phyraxi.domain.StarPopulation;
 import phyraxi.engine.generators.CoordinateGenerator;
 import phyraxi.engine.generators.MainSequenceStarGenerator;
 import phyraxi.engine.generators.RandomCoordinateGenerator;
-import phyraxi.engine.generators.StarNameGenerator;
 import phyraxi.engine.generators.StatisticalStarGenerator;
+import phyraxi.engine.generators.names.StarNameGenerator;
 import phyraxi.server.rest.data.StarMap;
 import phyraxi.server.rest.data.StarMap.StarInfo;
 

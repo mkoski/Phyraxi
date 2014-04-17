@@ -1,12 +1,12 @@
 package phyraxi.server.rest.service.starmap;
 
-import phyraxi.engine.generators.ConstellationStarNameGenerator;
 import phyraxi.engine.generators.CoordinateGenerator;
 import phyraxi.engine.generators.MainSequenceStarGenerator;
 import phyraxi.engine.generators.RandomCoordinateGenerator;
-import phyraxi.engine.generators.RandomStarNameGenerator;
-import phyraxi.engine.generators.StarNameGenerator;
 import phyraxi.engine.generators.StatisticalStarGenerator;
+import phyraxi.engine.generators.names.ConstellationStarNameGenerator;
+import phyraxi.engine.generators.names.RandomStarNameGenerator;
+import phyraxi.engine.generators.names.StarNameGenerator;
 
 /**
  * Factory class for generators used by {@link StarMapResource}.

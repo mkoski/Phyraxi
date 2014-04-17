@@ -1,10 +1,10 @@
-package phyraxi.engine.generators;
+package phyraxi.engine.generators.names;
 
 import org.junit.Ignore;
 import org.junit.Test;
 
-import phyraxi.engine.generators.ConstellationStarNameGenerator;
-import phyraxi.engine.generators.StarNameGenerator;
+import phyraxi.engine.generators.names.ConstellationStarNameGenerator;
+import phyraxi.engine.generators.names.StarNameGenerator;
 
 /**
  * @author Jani Kaarela (@gmail.com)

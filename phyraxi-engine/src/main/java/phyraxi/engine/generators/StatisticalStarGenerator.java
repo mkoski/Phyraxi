@@ -8,6 +8,8 @@ import phyraxi.domain.LuminosityClass;
 import phyraxi.domain.SpectralType;
 import phyraxi.domain.Star;
 import phyraxi.domain.StarPopulation;
+import phyraxi.engine.generators.names.ConstellationStarNameGenerator;
+import phyraxi.engine.generators.names.StarNameGenerator;
 
 
 /**

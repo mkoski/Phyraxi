@@ -1,4 +1,4 @@
-package phyraxi.engine.generators;
+package phyraxi.engine.generators.names;
 
 /**
  * Star name generator.

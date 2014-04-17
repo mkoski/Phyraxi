@@ -1,4 +1,4 @@
-package phyraxi.engine.generators;
+package phyraxi.engine.generators.names;
 
 import java.util.HashSet;
 import java.util.Random;

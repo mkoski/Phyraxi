@@ -2,6 +2,7 @@ package phyraxi.engine.generators;
 
 import phyraxi.domain.Star;
 import phyraxi.domain.StarPopulation;
+import phyraxi.engine.generators.names.StarNameGenerator;
 
 /**
  * A generator for generating a main-sequence star population.

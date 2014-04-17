@@ -1,9 +1,9 @@
-package phyraxi.engine.generators;
+package phyraxi.engine.generators.names;
 
 import org.junit.Ignore;
 import org.junit.Test;
 
-import phyraxi.engine.generators.RandomStarNameGenerator;
+import phyraxi.engine.generators.names.RandomStarNameGenerator;
 
 /**
  * @author Jani Kaarela (@gmail.com)
