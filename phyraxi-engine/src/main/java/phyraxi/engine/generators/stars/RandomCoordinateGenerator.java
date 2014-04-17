@@ -1,4 +1,4 @@
-package phyraxi.engine.generators;
+package phyraxi.engine.generators.stars;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package phyraxi.engine.generators;
+package phyraxi.engine.generators.stars;
 
 import static org.junit.Assert.assertEquals;
 
@@ -8,7 +8,7 @@ import org.junit.Test;
 import phyraxi.domain.SpectralType;
 import phyraxi.domain.Star;
 import phyraxi.domain.StarPopulation;
-import phyraxi.engine.generators.StatisticalStarGenerator;
+import phyraxi.engine.generators.stars.StatisticalStarGenerator;
 
 
 /**

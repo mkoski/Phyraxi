@@ -17,11 +17,11 @@ import phyraxi.domain.LuminosityClass;
 import phyraxi.domain.SpectralType;
 import phyraxi.domain.Star;
 import phyraxi.domain.StarPopulation;
-import phyraxi.engine.generators.CoordinateGenerator;
-import phyraxi.engine.generators.MainSequenceStarGenerator;
-import phyraxi.engine.generators.RandomCoordinateGenerator;
-import phyraxi.engine.generators.StatisticalStarGenerator;
 import phyraxi.engine.generators.names.StarNameGenerator;
+import phyraxi.engine.generators.stars.CoordinateGenerator;
+import phyraxi.engine.generators.stars.MainSequenceStarGenerator;
+import phyraxi.engine.generators.stars.RandomCoordinateGenerator;
+import phyraxi.engine.generators.stars.StatisticalStarGenerator;
 import phyraxi.server.rest.data.StarMap;
 import phyraxi.server.rest.data.StarMap.StarInfo;
 

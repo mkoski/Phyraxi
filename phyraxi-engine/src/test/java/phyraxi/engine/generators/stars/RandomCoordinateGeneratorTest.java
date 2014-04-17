@@ -1,4 +1,4 @@
-package phyraxi.engine.generators;
+package phyraxi.engine.generators.stars;
 
 import static org.junit.Assert.assertEquals;
 
@@ -7,8 +7,8 @@ import java.util.List;
 import org.junit.Test;
 
 import phyraxi.domain.Coordinates;
-import phyraxi.engine.generators.CoordinateGenerator;
-import phyraxi.engine.generators.RandomCoordinateGenerator;
+import phyraxi.engine.generators.stars.CoordinateGenerator;
+import phyraxi.engine.generators.stars.RandomCoordinateGenerator;
 
 
 /**

@@ -1,4 +1,4 @@
-package phyraxi.engine.generators;
+package phyraxi.engine.generators.stars;
 
 import phyraxi.domain.Star;
 import phyraxi.domain.StarPopulation;
