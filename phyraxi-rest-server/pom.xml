@@ -13,7 +13,7 @@
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>phyraxi-core</artifactId>
+      <artifactId>phyraxi-engine</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>

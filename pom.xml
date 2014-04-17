@@ -8,6 +8,7 @@
   <packaging>pom</packaging>
   <modules>
     <module>phyraxi-core</module>
+    <module>phyraxi-engine</module>
     <module>phyraxi-rest-server</module>
     <module>phyraxi-web-client</module>
   </modules>
