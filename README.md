@@ -5,7 +5,7 @@ Modules
 -------
 
 * phyraxi-core: shared classes (domain objects and such)
- * possibly will have "engine" or some similar server-only part ripped out? 
+* phyraxi-engine: game engine
 * phyraxi-rest-server: a REST server
  * generates a standalone runnable JAR
 * phyraxi-web-client: static (HTML, JS) web client
@@ -14,7 +14,7 @@ Modules
 Building
 --------
 
-A complete build can be done by building in the top-level directory. Run "mvn package" to generate all the artifacts, "mvn install" to also install them in the local repository. Similarly, each module can be built individually by running the command in the respective module directory - this will use the locally installed artifact from sibling modules.
+A complete build can be done by building in the top-level directory. Run "mvn package" to generate all the artifacts, "mvn install" to also install them in the local repository. Similarly, each module can be built individually by running the command in the respective module directory - this will use the locally installed artifacts for sibling modules.
 
 Running
 -------
