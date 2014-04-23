@@ -19,7 +19,10 @@ public class PseudoRealitisticPlanetGenerator implements PlanetGenerator {
 	
 	// TODO: this is a real eye-sore, refactor heavily!!!
 	
+	private static final double LIQUID_WATER_ZONE_INNER_LIMIT = 0.77;
+	private static final double LIQUID_WATER_ZONE_OUTER_LIMIT = 1.69;
 	private static final double TERRESTRIAL_PLANET_MIN_DENSITY = 0.5;
+	
 	private final Random random = new Random();
 	private final PlanetPropertiesCalculator calculator = new PlanetPropertiesCalculator();
 	
@@ -101,13 +104,14 @@ public class PseudoRealitisticPlanetGenerator implements PlanetGenerator {
 	
 	private static class PlanetarySystemParameters {
 		
-		private int innerZoneBoundary;
-		private int planetCount;
-		private int planetDensity;
+		private final int innerZoneBoundary;
+		private final int planetCount;
+		private final int planetDensity;
 		
-		private PlanetarySystemParameters(int planetCount, int planetDensity) {
+		private PlanetarySystemParameters(int planetCount, int planetDensity, int innerZoneBoundary) {
 			this.planetCount = planetCount;
 			this.planetDensity = planetDensity;
+			this.innerZoneBoundary = innerZoneBoundary;
 		}
 		
 		static PlanetarySystemParameters getModifiersFor(Star star) {
@@ -141,11 +145,11 @@ public class PseudoRealitisticPlanetGenerator implements PlanetGenerator {
 			case M:
 				count += 3; density += -3; break;
 			}
-			return new PlanetarySystemParameters(count, density);
+			return new PlanetarySystemParameters(count, density, determineInnerZoneBoundary(star));
 		}
 		
-		static int countInnerZoneBoundary(Star star) {
-			return 0;
+		static int determineInnerZoneBoundary(Star star) {
+			return (int) Math.round(Math.sqrt(star.getBrightness()) * LIQUID_WATER_ZONE_OUTER_LIMIT * 100);
 		}
 	}
 
