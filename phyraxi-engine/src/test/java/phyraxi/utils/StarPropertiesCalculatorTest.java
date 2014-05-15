@@ -1,13 +1,9 @@
 package phyraxi.utils;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-
-import phyraxi.domain.LuminosityClass;
-import phyraxi.domain.SpectralType;
-import phyraxi.domain.Star;
-import phyraxi.domain.StarPopulation;
 
 /**
  * Tests for {@link StarPropertiesCalculator}.
@@ -16,10 +12,7 @@ import phyraxi.domain.StarPopulation;
  */
 public class StarPropertiesCalculatorTest {
 
-	private static final Star SUN = new Star("Sol", StarPopulation.DISC_POPULATION_I, SpectralType.G, 2,
-			LuminosityClass.MAIN_SEQUENCE, 1.0, 1.0, 5778);
 	private static final int EARTH_DISTANCE_IN_CENTI_AUS = 100;
-	private static final int OBSERVED_EARTH_SOLAR_FLUX = 1366;
 	
 	private final StarPropertiesCalculator calculator = new StarPropertiesCalculator();
 	
@@ -51,7 +44,7 @@ public class StarPropertiesCalculatorTest {
 	
 	@Test
 	public void calculateFluxDensityShouldMatchObserved() {
-		double fluxDensity = calculator.calculateFluxDensity(SUN, EARTH_DISTANCE_IN_CENTI_AUS);
-		assertEquals(OBSERVED_EARTH_SOLAR_FLUX, fluxDensity, 2.0d);
+		int fluxDensity = calculator.calculateFluxDensity(SunConstants.SUN, EARTH_DISTANCE_IN_CENTI_AUS);
+		assertTrue(Math.abs(EarthConstants.EARTH_SOLAR_FLUX - fluxDensity) < 3);
 	}
 }

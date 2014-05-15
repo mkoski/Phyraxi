@@ -13,9 +13,8 @@ import phyraxi.domain.Star;
 public class StarPropertiesCalculator {
 	
 	private static final BigDecimal STEFAN_BOLTZMANN_CONSTANT = new BigDecimal(5.670373e-8);
-	private static final double ASSUMED_PLANETARY_BODY_ALBEDO = 0.2;
-	private static final int WATER_ZONE_LOWER_TEMPERATURE_BOUND = 270;
-	private static final int WATER_ZONE_UPPER_TEMPERATURE_BOUND = 380;
+	private static final double LIQUID_WATER_ZONE_INNER_LIMIT = 0.77;
+	private static final double LIQUID_WATER_ZONE_OUTER_LIMIT = 1.69;
 	
 	private final GeometricCalculator geometricCalculator = new GeometricCalculator();
 	
@@ -65,21 +64,17 @@ public class StarPropertiesCalculator {
 	 * 
 	 * @return	flux density.
 	 */
-	public double calculateFluxDensity(Star star, int distance) {
-		return convertSolarLuminositiesToWatts(star.getBrightness())
-		/ geometricCalculator.calculateSphereArea(UnitConversions.centiAstronomicalUnitsToMeters(distance));
+	public int calculateFluxDensity(Star star, int distance) {
+		return (int) Math.round(convertSolarLuminositiesToWatts(star.getBrightness())
+		/ geometricCalculator.calculateSphereArea(UnitConversions.centiAstronomicalUnitsToMeters(distance)));
 	}
 	
 	public int calculateInnerZoneBoundary(Star star) {
-		return 0;
+		return (int) Math.round(star.getBrightness() * LIQUID_WATER_ZONE_INNER_LIMIT * 100);
 	}
 	
 	public int calculateHabitableZoneBoundary(Star star) {
-		return 0;
-	}
-	
-	public int calculateOuterZoneBoundary(Star star) {
-		return 0;
+		return (int) Math.round(star.getBrightness() * LIQUID_WATER_ZONE_OUTER_LIMIT * 100);
 	}
 
 }

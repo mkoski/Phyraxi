@@ -1,120 +1,153 @@
 package phyraxi.engine.generators.planets;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import phyraxi.domain.Planet;
-import phyraxi.domain.SpectralType;
+import phyraxi.domain.PlanetType;
+import phyraxi.domain.Satellite;
 import phyraxi.domain.Star;
-import phyraxi.domain.StarPopulation;
 import phyraxi.utils.PlanetPropertiesCalculator;
+import phyraxi.utils.StarPropertiesCalculator;
 
 /**
  * 
  * 
  * @author Jani Kaarela (@gmail.com)
  */
-public class PseudoRealitisticPlanetGenerator implements PlanetGenerator {
+public class PseudoRealitisticPlanetGenerator extends AbstractPlanetGenerator {
 	
-	// TODO: this is a real eye-sore, refactor heavily!!!
-	
-	private static final double LIQUID_WATER_ZONE_INNER_LIMIT = 0.77;
-	private static final double LIQUID_WATER_ZONE_OUTER_LIMIT = 1.69;
+	private static final int PLANETOID_THRESHOLD = 0;
+	private static final int PLANETARY_THRESHOLD = 10;
 	private static final double TERRESTRIAL_PLANET_MIN_DENSITY = 0.5;
 	
 	private final Random random = new Random();
 	private final PlanetPropertiesCalculator calculator = new PlanetPropertiesCalculator();
+	private PlanetarySystemParameters parameters; 
 	
-	public List<Planet> generatePlanets(Star star) {
-		PlanetarySystemParameters modifiers = PlanetarySystemParameters.getModifiersFor(star);
-		int planetCount = determinePlanetCount(modifiers.planetCount);
-		
-		int previousOrbit = 0;
-		List<Planet> planets = new ArrayList<>();
-		for (int i = 0; i < planetCount; i++) {
-			Planet.Builder builder = new Planet.Builder();
-			int orbitalDistance = determineOrbitDistance(star, previousOrbit);
-			planets.add(generatePlanet(star, modifiers, orbitalDistance, builder));
-		}
-		return planets;
+	public List<Satellite> generateSatellites(Star star) {
+		parameters = PlanetarySystemParameters.getParametersFor(star);
+		return super.generateSatellites(star);
 	}
 	
-	int determinePlanetCount(int countModifier) {
+	@Override
+	protected SatelliteSlot[] determineSatelliteSlots(Star hostStar) {
+		int planetCount = determinePlanetCount();
+		SatelliteSlot[] slots = new SatelliteSlot[planetCount];
+		StarPropertiesCalculator starCalculator = new StarPropertiesCalculator();
+		for (int i = 1; i <= planetCount; i++) {
+			int previousDistance = 0;
+			if (i > 1) {
+				previousDistance = slots[i - 1].distance;
+			}
+			int distance = determineOrbit(previousDistance, hostStar);
+			int flux = starCalculator.calculateFluxDensity(hostStar, distance);
+			Zone zone = determineOrbitZone(distance);
+			slots[i] = new SatelliteSlot(i, distance, flux, zone);
+		}
+		return slots;
+	}
+	
+	int determinePlanetCount() {
+		int countModifier = parameters.planetCountModifier;
 		int randomCount = random.nextInt(4) + Math.round((float) Math.pow(random.nextFloat(), 2) * countModifier);
 		return Math.max(0, randomCount);
 	}
 	
-	int determineOrbitDistance(Star star, int previousOrbit) {
-		int distance;
-		if (previousOrbit > 0) {
-			distance = determineNextOrbit(previousOrbit);
+	int determineOrbit(int previousOrbit, Star star) {
+		if (previousOrbit == 0) {
+			return Math.round((random.nextInt(51) + 10) * (float) star.getMass());
 		} else {
-			distance = determineFirstOrbit(star);
+			return previousOrbit + Math.round(previousOrbit * ((float) Math.pow(random.nextFloat(), 2) + 0.4f));
 		}
-		return distance;
 	}
 	
-	int determineFirstOrbit(Star star) {
-		return Math.round((random.nextInt(51) + 10) * (float) star.getMass());
-	}
-	
-	int determineNextOrbit(int previousOrbit) {
-		return previousOrbit + Math.round(
-				((random.nextInt(18) + 3) / 10f) *
-				((float) Math.pow(random.nextFloat(), 2) + 0.4f) * previousOrbit);
-	}
-	
-	Planet generatePlanet(Star star, PlanetarySystemParameters modifiers, int orbitalDistance, Planet.Builder builder) {
-		int density = 0;
-		int mass = 0;
-		int radius = 0;
-		builder.setDensity(density);
-		builder.setDistance(orbitalDistance);
-		builder.setMass(mass);
-		int gravity = (int) Math.round(calculator.calculateGravity(mass, radius));
-		builder.setGravity(gravity);
-		builder.setName(star.getName() + " " + orbitalDistance); // TODO: roman numeral
-		builder.setRadius(radius);
-		// TODO implement planet generation, favor planetoids and asteroids for young stars and OBA stars
-		return builder.build();
-	}
-	
-	public static void main(String[] args) {
-		PseudoRealitisticPlanetGenerator generator = new PseudoRealitisticPlanetGenerator();
-		StarPopulation population = StarPopulation.DISC_POPULATION_I;
-		SpectralType type = SpectralType.A;
-		Star star = new Star("", population, type, 0, null, 1.0, 0, 0);
-		PlanetarySystemParameters modifiers = PlanetarySystemParameters.getModifiersFor(star);
-		int total = 0;
-		for (int i = 0; i < 50; i++) {
-			int count = generator.determinePlanetCount(modifiers.planetCount);
-			total += count;
-			System.out.println(count);
+	Zone determineOrbitZone(int distance) {
+		Zone zone = null;
+		if (distance < parameters.innerZoneBoundary) {
+			zone = Zone.INNER;
+		} else if (distance > parameters.outerZoneBoundary) {
+			zone = Zone.OUTER;
+		} else {
+			zone = Zone.LIQUID_WATER;
 		}
-		System.out.println("Average: " + total / 50);
-		/*int planetCount = generator.determinePlanetCount(modifiers.planetCount);
-		int previousOrbit = 0;
-		for (int i = 0; i < planetCount; i++) {
-			int orbit = generator.determineOrbitDistance(star, previousOrbit);
-			System.out.println(orbit / 100f);
-			previousOrbit = orbit;
-		}*/
+		return zone;
+	}
+	
+	@Override
+	protected boolean slotHasPlanetaryBody(Star hostStar, SatelliteSlot slot) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	protected int determinePlanetDensity(Star hostStar, SatelliteSlot slot) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	protected PlanetType determinePlanetType(Star hostStar, SatelliteSlot slot, int planetDensity) {
+		PlanetType planetType = null;
+		int seed = random.nextInt(20) + parameters.planetCountModifier;
+		if (seed < PLANETOID_THRESHOLD) {
+			// null means non-planetary (asteroids?)
+		} else if (seed < PLANETARY_THRESHOLD) {
+			planetType = determinePlanetoidType();
+		} else {
+			if (isTerrestrial(slot)) {
+				planetType = determineTerrestrialType(slot);
+			} else {
+				planetType = determineJovianType(slot);
+			}
+		}
+		return planetType;
+	}
+	
+	PlanetType determinePlanetoidType() {
+		return PlanetType.CARBON_PLANETOID; // TODO: determine different planetoid types
+	}
+	
+	boolean isTerrestrial(SatelliteSlot slot) {
+		return true; // TODO: determine terrestrial vs jovian
+	}
+	
+	PlanetType determineTerrestrialType(SatelliteSlot slot) {
+		return null;
+	}
+	
+	PlanetType determineJovianType(SatelliteSlot slot) {
+		return null;
+	}
+
+	@Override
+	protected Satellite generateNonPlanetarySatellite(Star hostStar, SatelliteSlot slot) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected Planet generatePlanet(Star hostStar, SatelliteSlot slot, PlanetType type, int density) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	private static class PlanetarySystemParameters {
 		
+		private final int planetCountModifier;
+		private final int planetDensityModifier;
 		private final int innerZoneBoundary;
-		private final int planetCount;
-		private final int planetDensity;
+		private final int outerZoneBoundary;
 		
-		private PlanetarySystemParameters(int planetCount, int planetDensity, int innerZoneBoundary) {
-			this.planetCount = planetCount;
-			this.planetDensity = planetDensity;
+		private PlanetarySystemParameters(int planetCountModifier, int planetDensityModifier, int innerZoneBoundary,
+				int outerZoneBoundary) {
+			this.planetCountModifier = planetCountModifier;
+			this.planetDensityModifier = planetDensityModifier;
 			this.innerZoneBoundary = innerZoneBoundary;
+			this.outerZoneBoundary = outerZoneBoundary;
 		}
 		
-		static PlanetarySystemParameters getModifiersFor(Star star) {
+		static PlanetarySystemParameters getParametersFor(Star star) {
 			int count = 0;
 			int density = 0;
 			switch (star.getPopulation()) {
@@ -145,12 +178,10 @@ public class PseudoRealitisticPlanetGenerator implements PlanetGenerator {
 			case M:
 				count += 3; density += -3; break;
 			}
-			return new PlanetarySystemParameters(count, density, determineInnerZoneBoundary(star));
-		}
-		
-		static int determineInnerZoneBoundary(Star star) {
-			return (int) Math.round(Math.sqrt(star.getBrightness()) * LIQUID_WATER_ZONE_OUTER_LIMIT * 100);
+			StarPropertiesCalculator starCalculator = new StarPropertiesCalculator();
+			int innerZoneBoundary = starCalculator.calculateInnerZoneBoundary(star);
+			int outerZoneBoundary = starCalculator.calculateHabitableZoneBoundary(star);
+			return new PlanetarySystemParameters(count, density, innerZoneBoundary, outerZoneBoundary);
 		}
 	}
-
 }
