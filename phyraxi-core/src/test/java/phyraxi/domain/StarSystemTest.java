@@ -18,7 +18,7 @@ import phyraxi.domain.StarSystem.StarHierarchy;
 
 
 /**
- * Tests for {@link StarSystem} and its inner classes.
+ * Tests for {@link StarSystem} and its inner classes.
  */
 @RunWith(Enclosed.class)
 public class StarSystemTest {
