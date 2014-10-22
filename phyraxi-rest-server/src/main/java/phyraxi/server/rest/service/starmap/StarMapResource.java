@@ -17,6 +17,7 @@ import phyraxi.domain.LuminosityClass;
 import phyraxi.domain.SpectralType;
 import phyraxi.domain.Star;
 import phyraxi.domain.StarPopulation;
+import phyraxi.engine.generators.GeneratorFactory;
 import phyraxi.engine.generators.names.StarNameGenerator;
 import phyraxi.engine.generators.stars.CoordinateGenerator;
 import phyraxi.engine.generators.stars.MainSequenceStarGenerator;
@@ -96,7 +97,7 @@ public class StarMapResource {
 	
 	@POST @Path("/random") @Consumes(MediaType.APPLICATION_JSON)
 	public StarMap randomStarMap(StarMapParameters parameters) {
-		StarMapGeneratorFactory factory = new StarMapGeneratorFactory();
+		GeneratorFactory factory = new GeneratorFactory();
 		CoordinateGenerator coordinateGenerator = factory.coordinateGenerator(parameters.coordinateGenerator);
 		StarNameGenerator starNameGenerator = factory.starNameGenerator(parameters.nameGenerator);
 		MainSequenceStarGenerator starGenerator = factory.mainSequenceStarGenerator(parameters.starGenerator);

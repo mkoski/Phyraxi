@@ -1,4 +1,4 @@
-package phyraxi.domain;
+package phyraxi.domain.game;
 
 public class Faction {
 	

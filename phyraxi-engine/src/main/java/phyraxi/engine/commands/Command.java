@@ -2,8 +2,10 @@ package phyraxi.engine.commands;
 
 import phyraxi.engine.commands.processors.CommandProcessor;
 
-public interface Command {
+public abstract class Command<T> {
 	
-	void process(CommandProcessor processor);
+	public T process(CommandProcessor<Command<T>, T> processor) {
+		return processor.process(this);
+	}
 
 }

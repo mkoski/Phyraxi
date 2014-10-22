@@ -2,8 +2,8 @@ package phyraxi.engine.commands.processors;
 
 import phyraxi.engine.commands.Command;
 
-public interface CommandProcessor {
+public interface CommandProcessor<C extends Command<?>, T> {
 	
-	void process(Command command);
+	T process(C command);
 
 }

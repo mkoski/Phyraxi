@@ -1,4 +1,4 @@
-package phyraxi.server.rest.service.starmap;
+package phyraxi.engine.generators;
 
 import phyraxi.engine.generators.names.ConstellationStarNameGenerator;
 import phyraxi.engine.generators.names.RandomStarNameGenerator;
@@ -9,15 +9,18 @@ import phyraxi.engine.generators.stars.RandomCoordinateGenerator;
 import phyraxi.engine.generators.stars.StatisticalStarGenerator;
 
 /**
- * Factory class for generators used by {@link StarMapResource}.
+ * Factory class for universe generators.
  * 
  * @author jakaarl
  */
-public class StarMapGeneratorFactory {
+public class GeneratorFactory {
 	
-	static final String DEFAULT_COORDINATE_GENERATOR = AvailableCoordinateGenerator.RANDOM.name();
-	static final String DEFAULT_STAR_NAME_GENERATOR = AvailableStarNameGenerator.CONSTELLATIONS.name();
-	static final String DEFAULT_STAR_GENERATOR = AvailableMainSequenceStarGenerator.STATISTICAL.name();
+	// TODO: this isn't pretty, do something about it!
+	// what was I thinking in the first place?!
+	
+	public static final String DEFAULT_COORDINATE_GENERATOR_KEY = AvailableCoordinateGenerator.RANDOM.name();
+	public static final String DEFAULT_STAR_NAME_GENERATOR_KEY = AvailableStarNameGenerator.CONSTELLATIONS.name();
+	public static final String DEFAULT_STAR_GENERATOR_KEY = AvailableMainSequenceStarGenerator.STATISTICAL.name();
 	
 	/**
 	 * Gets a coordinate generator.
@@ -30,6 +33,10 @@ public class StarMapGeneratorFactory {
 		Class<? extends CoordinateGenerator> generatorClass =
 				AvailableCoordinateGenerator.valueOf(key.toUpperCase()).generator;
 		return instantiateGenerator(generatorClass);
+	}
+	
+	public CoordinateGenerator defaultCoordinateGenerator() {
+		return instantiateGenerator(AvailableCoordinateGenerator.RANDOM.generator);
 	}
 	
 	/**
@@ -45,6 +52,10 @@ public class StarMapGeneratorFactory {
 		return instantiateGenerator(generatorClass);
 	}
 	
+	public StarNameGenerator defaultStarNameGenerator() {
+		return instantiateGenerator(AvailableStarNameGenerator.RANDOM.generator);
+	}
+	
 	/**
 	 * Gets a star generator.
 	 * 
@@ -56,6 +67,10 @@ public class StarMapGeneratorFactory {
 		Class<? extends MainSequenceStarGenerator> generatorClass =
 				AvailableMainSequenceStarGenerator.valueOf(key.toUpperCase()).generator;
 		return instantiateGenerator(generatorClass);
+	}
+	
+	public MainSequenceStarGenerator defaultMainSequenceStarGenerator() {
+		return instantiateGenerator(AvailableMainSequenceStarGenerator.STATISTICAL.generator);
 	}
 	
 	private <T> T instantiateGenerator(Class<T> generatorClass) {
