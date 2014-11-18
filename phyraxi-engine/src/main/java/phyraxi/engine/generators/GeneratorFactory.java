@@ -5,7 +5,8 @@ import phyraxi.engine.generators.names.RandomStarNameGenerator;
 import phyraxi.engine.generators.names.StarNameGenerator;
 import phyraxi.engine.generators.stars.CoordinateGenerator;
 import phyraxi.engine.generators.stars.MainSequenceStarGenerator;
-import phyraxi.engine.generators.stars.RandomCoordinateGenerator;
+import phyraxi.engine.generators.stars.RandomCubicalCoordinateGenerator;
+import phyraxi.engine.generators.stars.RandomSphericalCoordinateGenerator;
 import phyraxi.engine.generators.stars.StatisticalStarGenerator;
 
 /**
@@ -18,7 +19,7 @@ public class GeneratorFactory {
 	// TODO: this isn't pretty, do something about it!
 	// what was I thinking in the first place?!
 	
-	public static final String DEFAULT_COORDINATE_GENERATOR_KEY = AvailableCoordinateGenerator.RANDOM.name();
+	public static final String DEFAULT_COORDINATE_GENERATOR_KEY = AvailableCoordinateGenerator.CUBE.name();
 	public static final String DEFAULT_STAR_NAME_GENERATOR_KEY = AvailableStarNameGenerator.CONSTELLATIONS.name();
 	public static final String DEFAULT_STAR_GENERATOR_KEY = AvailableMainSequenceStarGenerator.STATISTICAL.name();
 	
@@ -36,7 +37,7 @@ public class GeneratorFactory {
 	}
 	
 	public CoordinateGenerator defaultCoordinateGenerator() {
-		return instantiateGenerator(AvailableCoordinateGenerator.RANDOM.generator);
+		return instantiateGenerator(AvailableCoordinateGenerator.CUBE.generator);
 	}
 	
 	/**
@@ -83,7 +84,8 @@ public class GeneratorFactory {
 	
 	private enum AvailableCoordinateGenerator {
 		
-		RANDOM(RandomCoordinateGenerator.class);
+		SPHERE(RandomSphericalCoordinateGenerator.class),
+		CUBE(RandomCubicalCoordinateGenerator.class);
 		
 		private Class<? extends CoordinateGenerator> generator;
 		

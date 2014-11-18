@@ -25,9 +25,14 @@ public class SpiralArmsCoordinateGenerator implements CoordinateGenerator {
 		return null;
 	}
 
-	public int getMapRadius(int numberOfStars) {
+	public Coordinates getMapDimensions(int numberOfStars) {
 		// TODO Auto-generated method stub
-		return 0;
+		return null;
+	}
+
+	@Override
+	public UniverseShape getUniverseShape() {
+		return UniverseShape.SPHERE;
 	}
 
 }

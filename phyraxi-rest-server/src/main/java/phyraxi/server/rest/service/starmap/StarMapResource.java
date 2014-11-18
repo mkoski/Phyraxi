@@ -21,7 +21,7 @@ import phyraxi.engine.generators.GeneratorFactory;
 import phyraxi.engine.generators.names.StarNameGenerator;
 import phyraxi.engine.generators.stars.CoordinateGenerator;
 import phyraxi.engine.generators.stars.MainSequenceStarGenerator;
-import phyraxi.engine.generators.stars.RandomCoordinateGenerator;
+import phyraxi.engine.generators.stars.RandomCubicalCoordinateGenerator;
 import phyraxi.engine.generators.stars.StatisticalStarGenerator;
 import phyraxi.server.rest.data.StarMap;
 import phyraxi.server.rest.data.StarMap.StarInfo;
@@ -80,7 +80,7 @@ public class StarMapResource {
 
 	@GET @Path("/near-space")
 	public StarMap nearSpaceStarMap() {
-		return new StarMap(NEAR_SPACE_RADIUS, NEAR_SPACE);
+		return new StarMap(new Coordinates(NEAR_SPACE_RADIUS, NEAR_SPACE_RADIUS, NEAR_SPACE_RADIUS), NEAR_SPACE);
 	}
 	
 	@GET @Path("/random")
@@ -90,7 +90,7 @@ public class StarMapResource {
 	
 	@GET @Path("/random/{size}")
 	public StarMap randomStarMap(@PathParam("size") int size) {
-		RandomCoordinateGenerator coordinateGenerator = new RandomCoordinateGenerator();
+		CoordinateGenerator coordinateGenerator = new RandomCubicalCoordinateGenerator();
 		StatisticalStarGenerator starGenerator = new StatisticalStarGenerator();
 		return generateRandomStarMap(size, coordinateGenerator, starGenerator);
 	}
@@ -112,14 +112,14 @@ public class StarMapResource {
 		}
 		List<StarInfo> stars = new ArrayList<>(size);
 		List<Coordinates> coordinateList = coordinateGenerator.generateStarSystemCoordinates(size);
-		int radius = coordinateGenerator.getMapRadius(size);
+		Coordinates dimensions = coordinateGenerator.getMapDimensions(size);
 		for (Coordinates coordinates : coordinateList) {
 			Star star = starGenerator.generateStar(StarPopulation.DISC_POPULATION_I); // TODO: determine population
 			StarInfo starInfo = new StarInfo(star, coordinates);
 			stars.add(starInfo);
 		}
 		
-		return new StarMap(radius, stars);
+		return new StarMap(dimensions, stars);
 	}
 
 }

@@ -13,16 +13,16 @@ import phyraxi.domain.Star;
  */
 public class StarMap {
 
-	private final int radius;
+	private final Coordinates dimensions;
 	private final List<StarInfo> stars;
 
-	public StarMap(int radius, List<StarInfo> stars) {
-		this.radius = radius;
+	public StarMap(Coordinates dimensions, List<StarInfo> stars) {
+		this.dimensions = dimensions;
 		this.stars = stars;
 	}
 
-	public int getRadius() {
-		return radius;
+	public Coordinates getDimensions() {
+		return dimensions;
 	}
 	
 	public List<StarInfo> getStars() {

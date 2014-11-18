@@ -16,12 +16,7 @@ import phyraxi.utils.GalacticCoordinatesConverter;
  * 
  * @author Jani Kaarela
  */
-public class RandomCoordinateGenerator implements CoordinateGenerator {
-	
-	private static final int MAX_STAR_COUNT = 1000;
-	private static final int MAP_SIZE_FACTOR = 250;
-	private static final int DISTANCE_WEIGHTING_FACTOR = 3;
-	private static final int Z_FLATTENING_FACTOR = 3;
+public class RandomSphericalCoordinateGenerator implements CoordinateGenerator {
 	
 	private GalacticCoordinatesConverter converter = new GalacticCoordinatesConverter();
 	
@@ -32,8 +27,8 @@ public class RandomCoordinateGenerator implements CoordinateGenerator {
 		}
 		Random random = new Random();
 		Map<DistanceMarginCoordinatesKey, Coordinates> generatedCoords = new HashMap<>(starCount);
+		int maxDistance = getMapDimensions(starCount).x; // x = y = radius
 		while (generatedCoords.size() < starCount) {
-			int maxDistance = getMapRadius(starCount);
 			int distance = randomDistance(maxDistance, random);
 			float longitude = randomLongitude(random);
 			Coordinates coordinates = randomCoordinates(distance, maxDistance, longitude, random);
@@ -45,8 +40,10 @@ public class RandomCoordinateGenerator implements CoordinateGenerator {
 		return new ArrayList<Coordinates>(generatedCoords.values());
 	}
 	
-	public int getMapRadius(int starCount) {
-		return MAP_SIZE_FACTOR * starCount;
+	public Coordinates getMapDimensions(int starCount) {
+		int radius = MAP_SIZE_FACTOR * starCount;
+		int depth = radius / Z_FLATTENING_FACTOR;
+		return new Coordinates(radius, radius, depth);
 	}
 	
 	int randomDistance(int maxDistance, Random random) {
@@ -67,6 +64,11 @@ public class RandomCoordinateGenerator implements CoordinateGenerator {
 		long x = converter.calculateX(distance, radianLatitude, radianLongitude);
 		long y = converter.calculateY(distance, radianLatitude, radianLongitude);
 		return new Coordinates((int) x, (int) y, (int) z);
+	}
+
+	@Override
+	public UniverseShape getUniverseShape() {
+		return UniverseShape.SPHERE;
 	}
 
 }

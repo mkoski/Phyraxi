@@ -1,7 +1,8 @@
 package phyraxi.domain;
 
 /**
- * Coordinates, in X, Y and Z dimension.
+ * Coordinates, in X, Y and Z dimension. Can also be used to express dimensions, ie. axis lengths instead
+ * of points on an axis.
  */
 public class Coordinates {
 
