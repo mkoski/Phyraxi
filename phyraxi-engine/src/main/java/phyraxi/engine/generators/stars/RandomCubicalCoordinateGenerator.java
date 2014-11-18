@@ -35,8 +35,9 @@ public class RandomCubicalCoordinateGenerator implements CoordinateGenerator {
 
 	@Override
 	public Coordinates getMapDimensions(int numberOfStars) {
-		int maxDimension = numberOfStars * MAP_SIZE_FACTOR;
-		return new Coordinates(maxDimension, maxDimension, maxDimension);
+		int maxWidthAndHeight = numberOfStars * MAP_SIZE_FACTOR;
+		int maxDepth = maxWidthAndHeight / Z_FLATTENING_FACTOR;
+		return new Coordinates(maxWidthAndHeight, maxWidthAndHeight, maxDepth);
 	}
 
 	@Override
