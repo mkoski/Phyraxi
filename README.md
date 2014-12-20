@@ -1,5 +1,6 @@
 Phyraxi
-=====
+=======
+![Build status](https://travis-ci.org/mkoski/Phyraxi.svg?branch=master)
 
 Modules
 -------
